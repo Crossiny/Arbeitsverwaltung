@@ -1,0 +1,36 @@
+﻿<Window x:Class="Arbeitsverwaltung.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Arbeitsverwaltung"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="300" Width="300">
+    <Grid>
+        <TabControl>
+            <TabItem Name="UserItem" Header="User">
+                <Frame Name="UserFrame">
+                    <Frame.Content>
+                        <local:UserPage />
+                    </Frame.Content>
+                </Frame>
+            </TabItem>
+
+            <TabItem Name="AdminItem" Header="Admin">
+                <Frame Name="AdminFrame">
+                    <Frame.Content>
+                        <local:AdminPage />
+                    </Frame.Content>
+                </Frame>
+            </TabItem>
+
+            <TabItem Name="SettingsItem" Header="Settings">
+                <Frame Name="SettingsFrame">
+                    <Frame.Content>
+                        <local:SettingsPage />
+                    </Frame.Content>
+                </Frame>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
