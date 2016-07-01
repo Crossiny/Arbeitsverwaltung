@@ -5,10 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Arbeitsverwaltung"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="300">
+        Title="MainWindow" Height="400" Width="600">
     <Grid>
-        <TabControl>
-            <TabItem Name="UserItem" Header="User">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row ="0" Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0">Username:</TextBlock>
+            <TextBox Name="UsernameTextBox" Grid.Row="1" Grid.Column="0"></TextBox>
+
+            <TextBlock Grid.Row="0" Grid.Column="1">Password</TextBlock>
+            <TextBox Name="PasswordTextBox" Grid.Row="1" Grid.Column="1"></TextBox>
+
+            <Button Name="RegisterButton" Grid.Row="0" Grid.Column="2">Register</Button>
+            <Button Name="LoginButton" Grid.Row="1" Grid.Column="2">Login</Button>
+        </Grid>
+
+        <TabControl Grid.Row="1" >
+            <TabItem Name="UserItem" Header="User" IsEnabled="False">
                 <Frame Name="UserFrame">
                     <Frame.Content>
                         <local:UserPage />
@@ -16,7 +42,7 @@
                 </Frame>
             </TabItem>
 
-            <TabItem Name="AdminItem" Header="Admin">
+            <TabItem Name="AdminItem" Header="Admin" IsEnabled="False">
                 <Frame Name="AdminFrame">
                     <Frame.Content>
                         <local:AdminPage />
@@ -24,7 +50,7 @@
                 </Frame>
             </TabItem>
 
-            <TabItem Name="SettingsItem" Header="Settings">
+            <TabItem Name="SettingsItem" Header="Settings" IsSelected="True">
                 <Frame Name="SettingsFrame">
                     <Frame.Content>
                         <local:SettingsPage />
@@ -32,5 +58,9 @@
                 </Frame>
             </TabItem>
         </TabControl>
+        
+        <StatusBar Grid.Row="2">
+            <StatusBarItem Name="InfoBarItem"/>
+        </StatusBar>
     </Grid>
 </Window>

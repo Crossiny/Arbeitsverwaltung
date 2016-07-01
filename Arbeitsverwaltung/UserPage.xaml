@@ -8,8 +8,4 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="UserPage"
       Background="WhiteSmoke">
-
-    <Grid>
-        <TextBlock Text="USERPAGE" FontSize="20" />
-    </Grid>
 </Page>
