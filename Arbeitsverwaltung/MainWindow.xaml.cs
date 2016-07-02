@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.CodeDom.Compiler;
+using System.Windows;
+using System.Windows.Media;
+using Arbeitsverwaltung.Properties;
 
 namespace Arbeitsverwaltung
 {
@@ -7,16 +11,24 @@ namespace Arbeitsverwaltung
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static MainWindow _thisWindow;
+        public static MainWindow Ui;
         public MainWindow()
         {
             InitializeComponent();
-            _thisWindow = this;
+            Ui = this;
+            UsernameTextBox.Text = Settings.Default.DefaultUsername;
+            PasswordTextBox.Password = Settings.Default.DefaultPassword;
         }
 
         public static void PrintStatus(string status)
         {
-            _thisWindow.InfoBarItem.Content = status;
+            if (Ui == null) return;
+            Ui.InfoBarItem.Content = status;
+        }
+
+        private void OnClosing(object sender, EventArgs e)
+        {
+            SettingsPage.Save();
         }
     }
 }

@@ -8,21 +8,40 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="SettingsPage"
       Background="WhiteSmoke">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        
-        <TextBlock Grid.Row="0" Grid.Column="0">Server-IP:</TextBlock>
-        <TextBox Name="IpTextBox" Grid.Row="0" Grid.Column="1" LostFocus="IpChanged">127.0.0.1</TextBox>
+    <ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="1" Grid.Column="0">Server-Port:</TextBlock>
-        <TextBox Name="PortTextBox" Grid.Row="1" Grid.Column="1" LostFocus="PortChanged">1</TextBox>
-    </Grid>
+            <!-- Login Settings -->
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" TextAlignment="Center">Autologin Settings</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="0">Username:</TextBlock>
+            <TextBox Name="DefaultUsernameTextBox" Grid.Row="1" Grid.Column="1" LostFocus="UsernameChanged"></TextBox>
+            <TextBlock Grid.Row="2" Grid.Column="0">Password:</TextBlock>
+            <PasswordBox Name="DefaultPasswordTextBox" Grid.Row="2" Grid.Column="1" LostFocus="PasswordChanged"></PasswordBox>
+            <TextBlock Grid.Row="3" Grid.Column="0">Auto-Login on Start</TextBlock>
+            <CheckBox Name="AutoLoginCheckBox" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" 
+                  Checked="AutoLoginChanged" Unchecked="AutoLoginChanged" IsThreeState="False"></CheckBox>
+
+            <!-- Server Settings -->
+            <TextBlock Grid.Row="5" Grid.ColumnSpan="2" TextAlignment="Center">Connection Settings</TextBlock>
+            <TextBlock Grid.Row="6" Grid.Column="0">Server-IP:</TextBlock>
+            <TextBox Name="IpTextBox" Grid.Row="6" Grid.Column="1" LostFocus="IpChanged">127.0.0.1</TextBox>
+            <TextBlock Grid.Row="7" Grid.Column="0">Server-Port:</TextBlock>
+            <TextBox Name="PortTextBox" Grid.Row="7" Grid.Column="1" LostFocus="PortChanged">1</TextBox>
+        </Grid>
+    </ScrollViewer>
 </Page>
