@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Arbeitsverwaltung"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="600">
+        Title="MainWindow" 
+        Height="400" Width="600"
+        MinHeight="200" MinWidth="250"
+        Closing="OnClosing">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -27,7 +31,7 @@
             <TextBox Name="UsernameTextBox" Grid.Row="1" Grid.Column="0"></TextBox>
 
             <TextBlock Grid.Row="0" Grid.Column="1">Password</TextBlock>
-            <TextBox Name="PasswordTextBox" Grid.Row="1" Grid.Column="1"></TextBox>
+            <PasswordBox Name="PasswordTextBox" Grid.Row="1" Grid.Column="1"></PasswordBox>
 
             <Button Name="RegisterButton" Grid.Row="0" Grid.Column="2">Register</Button>
             <Button Name="LoginButton" Grid.Row="1" Grid.Column="2">Login</Button>
@@ -58,7 +62,7 @@
                 </Frame>
             </TabItem>
         </TabControl>
-        
+
         <StatusBar Grid.Row="2">
             <StatusBarItem Name="InfoBarItem"/>
         </StatusBar>
