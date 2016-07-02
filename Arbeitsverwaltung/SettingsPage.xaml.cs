@@ -18,6 +18,7 @@ namespace Arbeitsverwaltung
         public SettingsPage()
         {
             InitializeComponent();
+
             _settingsPage = this;
             Settings.Default.Reload();
 
