@@ -11,8 +11,6 @@
         <TextBlock x:Name="textBlockShiftGestime" HorizontalAlignment="Left" Margin="200,10,0,0" TextWrapping="Wrap" Text="Zeit" VerticalAlignment="Top"/>
         <TextBlock x:Name="textBlockBreak" HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="Pause: " VerticalAlignment="Top"/>
         <TextBlock x:Name="textBlockShiftTime" HorizontalAlignment="Left" Margin="77,10,0,0" TextWrapping="Wrap" Text="Von bis Wann" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlockBreakTime" HorizontalAlignment="Left" Margin="77,31,0,0" TextWrapping="Wrap" Text="Von bis Wann" VerticalAlignment="Top"/>
         <TextBlock x:Name="textBlockBreakGestime" HorizontalAlignment="Left" Margin="200,31,0,0" TextWrapping="Wrap" Text="Zeit" VerticalAlignment="Top"/>
-
     </Grid>
 </UserControl>

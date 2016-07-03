@@ -93,11 +93,15 @@ namespace Arbeitsverwaltung.Classes
             {
                 LoginResponsePackage loginResponsePackage = receivedObject as LoginResponsePackage;
 
-                if (loginResponsePackage.IsAdmin)
+                if (loginResponsePackage != null && !loginResponsePackage.Success)
+                {
+                    return null;
+                }
+                else if (loginResponsePackage != null && loginResponsePackage.IsAdmin)
                 {
                     return true;
                 }
-                else if (!loginResponsePackage.IsAdmin)
+                else if (loginResponsePackage != null && !loginResponsePackage.IsAdmin)
                 {
                     return false;
                 }

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Server.Database;
 
 namespace Arbeitsverwaltung
 {
@@ -20,9 +21,14 @@ namespace Arbeitsverwaltung
     /// </summary>
     public partial class ShiftElement : UserControl
     {
-        public ShiftElement()
+        public ShiftElement(Shift shift)
         {
             InitializeComponent();
+
+            textBlockShiftTime.Text = $"{shift.StartTime} - {shift.EndTime}";
+            textBlockShiftGestime.Text = shift.WorkSpan.ToString();
+
+            textBlockBreakGestime.Text = shift.BreakSpan.ToString();
         }
     }
 }
