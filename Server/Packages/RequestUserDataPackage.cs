@@ -19,10 +19,14 @@ namespace Server.Packages
             Success = info.GetBoolean("Success");
         }
 
+        #region ISerializable Members
+
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Username", Username);
             info.AddValue("Success", Success);
         }
+
+        #endregion
     }
 }

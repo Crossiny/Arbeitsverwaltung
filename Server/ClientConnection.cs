@@ -3,18 +3,18 @@ using System.IO;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
-using Server.Database;
 using Server.Packages;
 
 namespace Server
 {
     internal class ClientConnection
     {
-        private readonly TcpClient _tcpClient;
         private readonly BinaryFormatter _binaryFormatter = new BinaryFormatter();
+        private readonly TcpClient _tcpClient;
         private string _clientName;
-        private bool _isConnected = false;
         private bool _isAdmin;
+        private bool _isConnected;
+
         public ClientConnection(TcpClient tcpClient)
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -40,6 +40,24 @@ namespace Server
             if (receivedObject.GetType() == typeof(RequestUserDataPackage))
             {
                 SendRequestUserDataResponse(receivedObject as RequestUserDataPackage);
+            }
+            if (receivedObject.GetType() == typeof(AddShiftPackage))
+            {
+                SendAddShiftResponsePackage(receivedObject as AddShiftPackage);
+            }
+        }
+
+        private void SendAddShiftResponsePackage(AddShiftPackage addShiftPackage)
+        {
+            AddShiftResponsePackage addShiftResponsePackage = new AddShiftResponsePackage();
+            if (Program.Database.UserExists(_clientName))
+            {
+                Program.Database.AddShift(_clientName, addShiftPackage.shift);
+                addShiftResponsePackage.Success = true;
+            }
+            else
+            {
+                addShiftResponsePackage.Success = false;
             }
         }
 

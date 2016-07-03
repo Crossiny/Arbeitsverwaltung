@@ -22,11 +22,15 @@ namespace Server.Database
                 info.GetValue("UserDictionary", typeof(Dictionary<string, User>)) as Dictionary<string, User>;
         }
 
+        #region ISerializable Members
+
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("PasswordDictionary", _passwordDictionary);
             info.AddValue("UserDictionary", _userDictionary);
         }
+
+        #endregion
 
         public bool UserExists(string username)
         {
@@ -67,6 +71,11 @@ namespace Server.Database
         public bool IsAdmin(string username)
         {
             return UserExists(username) && _userDictionary[username].IsAdmin;
+        }
+
+        public void AddShift(string username, Shift shift)
+        {
+            _userDictionary[username].AddShift(shift);
         }
     }
 }

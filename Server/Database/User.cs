@@ -51,12 +51,16 @@ namespace Server.Database
             }
         }
 
+        #region ISerializable Members
+
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Username", Username);
             info.AddValue("Loan", Loan);
             info.AddValue("Shifts", Shifts);
         }
+
+        #endregion
 
         public void SetLoan(double loan)
         {

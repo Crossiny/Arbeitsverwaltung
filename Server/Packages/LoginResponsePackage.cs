@@ -21,11 +21,15 @@ namespace Server.Packages
             IsAdmin = info.GetBoolean("IsAdmin");
         }
 
+        #region ISerializable Members
+
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Username", Username);
             info.AddValue("Success", Success);
             info.AddValue("IsAdmin", IsAdmin);
         }
+
+        #endregion
     }
 }

@@ -1,26 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using Server.Database;
 
 namespace Server.Packages
 {
     [Serializable]
-    class AddShiftPackage : ISerializable
+    internal class AddShiftPackage : ISerializable
     {
         public Shift shift;
 
-        AddShiftPackage(SerializationInfo info, StreamingContext context)
+        public AddShiftPackage()
+        {
+        }
+
+        private AddShiftPackage(SerializationInfo info, StreamingContext context)
         {
             shift = info.GetValue("Shift", typeof(Shift)) as Shift;
         }
+
+        #region ISerializable Members
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Shift", shift);
         }
+
+        #endregion
     }
 }

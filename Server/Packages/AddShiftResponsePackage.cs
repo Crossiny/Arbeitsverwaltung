@@ -1,25 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+using Server.Database;
 
 namespace Server.Packages
 {
     [Serializable]
-    class AddShiftResponsePackage : ISerializable
+    internal class AddShiftResponsePackage : ISerializable
     {
         public bool Success;
+        public User NewUser;
 
-        AddShiftResponsePackage(SerializationInfo info, StreamingContext context)
+        public AddShiftResponsePackage()
         {
+        }
+
+        private AddShiftResponsePackage(SerializationInfo info, StreamingContext context)
+        {
+            NewUser = info.GetValue("NewUser", typeof(User)) as User;
             Success = info.GetBoolean("Success");
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Success", Success);
+            info.AddValue("NewUser", NewUser);
         }
-    }
+     }
 }

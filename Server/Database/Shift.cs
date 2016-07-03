@@ -43,11 +43,15 @@ namespace Server.Database
             }
         }
 
+        #region ISerializable Members
+
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("StartTime", StartTime);
             info.AddValue("EndTime", EndTime);
             info.AddValue("Breaks", Breaks);
         }
+
+        #endregion
     }
 }

@@ -19,10 +19,14 @@ namespace Server.Packages
             Password = info.GetString("Password");
         }
 
+        #region ISerializable Members
+
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Username", Username);
             info.AddValue("Password", Password);
         }
+
+        #endregion
     }
 }
