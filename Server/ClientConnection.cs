@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
+using Server.Database;
 using Server.Packages;
 
 namespace Server
@@ -11,7 +12,9 @@ namespace Server
     {
         private readonly TcpClient _tcpClient;
         private readonly BinaryFormatter _binaryFormatter = new BinaryFormatter();
-
+        private string _clientName;
+        private bool _isConnected = false;
+        private bool _isAdmin;
         public ClientConnection(TcpClient tcpClient)
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -66,6 +69,9 @@ namespace Server
 
                 Console.CursorLeft = 0;
                 Console.WriteLine($"{loginPackage.Username} logged in!");
+                _clientName = loginResponsePackage.Username;
+                _isConnected = true;
+                _isAdmin = loginResponsePackage.IsAdmin;
             }
             else
                 loginResponsePackage.Success = false;

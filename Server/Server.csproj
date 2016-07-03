@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="ClientConnection.cs" />
     <Compile Include="Database\Database.cs" />
+    <Compile Include="Packages\AddShiftPackage.cs" />
+    <Compile Include="Packages\AddShiftResponsePackage.cs" />
     <Compile Include="Packages\LoginPackage.cs" />
     <Compile Include="Packages\LoginResponsePackage.cs" />
     <Compile Include="Packages\RequestUserDataPackage.cs" />

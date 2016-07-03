@@ -67,5 +67,10 @@ namespace Server.Database
         {
             IsAdmin = isAdmin;
         }
+
+        public void AddShift(Shift shift)
+        {
+            Shifts.Add(shift);
+        }
     }
 }
