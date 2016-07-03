@@ -12,7 +12,7 @@ namespace Arbeitsverwaltung.Classes
     internal class Client
     {
         private BinaryFormatter _binaryFormatter = new BinaryFormatter();
-        private TcpClient _tcpClient = new TcpClient();
+        private TcpClient _tcpClient;
 
         public void Connect(string ip, int port)
         {
@@ -24,6 +24,7 @@ namespace Arbeitsverwaltung.Classes
                 }
                 else
                 {
+
                     _tcpClient.Connect(ip, port);
                     MainWindow.PrintStatus("Connection to Server successfully!");
                 }
@@ -37,6 +38,9 @@ namespace Arbeitsverwaltung.Classes
 
         public void Register(string username, string password)
         {
+            if(_tcpClient == null)
+                _tcpClient = new TcpClient();
+
             if (!_tcpClient.Connected)
             {
                 Connect(Settings.Default.IP, Settings.Default.Port);
@@ -68,10 +72,10 @@ namespace Arbeitsverwaltung.Classes
         /// <returns></returns>
         public bool? Login(string username, string password)
         {
+                _tcpClient = new TcpClient();
+
             if (!_tcpClient.Connected)
-            {
                 Connect(Settings.Default.IP, Settings.Default.Port);
-            }
 
             LoginPackage loginPackage = new LoginPackage
             {

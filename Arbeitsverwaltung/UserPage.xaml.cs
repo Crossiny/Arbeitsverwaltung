@@ -23,6 +23,7 @@ namespace Arbeitsverwaltung
         {
             if (_shift == null)
             {
+                _shift = new Shift();
                 _shift.StartTime = DateTime.Now;
 
                 MainWindow.PrintStatus("Shift is started.");
