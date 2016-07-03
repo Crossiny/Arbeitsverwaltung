@@ -41,10 +41,12 @@ namespace Arbeitsverwaltung
             if (isAdmin == true)
             {
                 AdminItem.IsEnabled = true;
+                UserItem.IsEnabled = true;
             }
             else if (isAdmin == false)
             {
                 UserItem.IsEnabled = true;
+                AdminItem.IsEnabled = false;
             }
         }
 
