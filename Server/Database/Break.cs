@@ -20,15 +20,11 @@ namespace Server.Database
         {
             get { return EndTime - StartTime; }
         }
-
-        #region ISerializable Members
-
+        
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("StartTime", StartTime);
             info.AddValue("EndTime", EndTime);
         }
-
-        #endregion
     }
 }

@@ -55,6 +55,8 @@ namespace Server
 
             _binaryFormatter.Serialize(_tcpClient.GetStream(), logoutResponsePackage);
             _tcpClient.Close();
+            Console.CursorLeft = 0;
+            Console.Write($"User {_clientName} disconnected!\n>");
         }
 
         private void SendAddShiftResponsePackage(AddShiftPackage addShiftPackage)
@@ -71,6 +73,7 @@ namespace Server
                 addShiftResponsePackage.Success = false;
             }
             _binaryFormatter.Serialize(_tcpClient.GetStream(), addShiftResponsePackage);
+            Console.WriteLine("Added shift!");
         }
 
         private void SendRequestUserDataResponse(RequestUserDataPackage requestUserDataPackage)
@@ -103,7 +106,9 @@ namespace Server
                 loginResponsePackage.IsAdmin = Program.Database.GetIsAdmin(loginPackage.Username);
 
                 Console.CursorLeft = 0;
-                Console.WriteLine($"{loginPackage.Username} logged in! \n>");
+                Console.WriteLine($"{loginPackage.Username} logged in!");
+                Console.Write(">");
+
                 _clientName = loginResponsePackage.Username;
                 _loggedIn = true;
                 _isAdmin = loginResponsePackage.IsAdmin;
@@ -120,7 +125,11 @@ namespace Server
             if (Program.Database.UserExists(registerPackage.Username))
                 registerResponsePackage.Success = false;
             else
+            {
                 registerResponsePackage.Success = Program.Database.AddUser(registerPackage.Username, registerPackage.Password);
+                Console.CursorLeft = 0;
+                Console.Write($"User {registerPackage.Username} registered!\n>");
+            }
             _binaryFormatter.Serialize(_tcpClient.GetStream(), registerResponsePackage);
         }
     }

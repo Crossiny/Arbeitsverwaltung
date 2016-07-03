@@ -25,7 +25,7 @@ namespace Server.Database
         public double Loan;
         public bool IsAdmin;
 
-        public TimeSpan WorkedSpan
+        public TimeSpan WorkSpan
         {
             get
             {
@@ -51,17 +51,35 @@ namespace Server.Database
             }
         }
 
-        #region ISerializable Members
+        public TimeSpan WorkSpanRange(DateTime startTime, DateTime endTime)
+        {
+            TimeSpan timeSpan = default(TimeSpan);
+            foreach (Shift shift in Shifts)
+            {
+                if (shift.StartTime > startTime && shift.EndTime < endTime)
+                    timeSpan += shift.WorkSpan;
+            }
+            return timeSpan;
+        }
 
+        public TimeSpan BreakedSpanRange(DateTime startTime, DateTime endTime)
+        {
+            TimeSpan timeSpan = default(TimeSpan);
+            foreach (Shift shift in Shifts)
+            {
+                if (shift.StartTime > startTime && shift.EndTime < endTime)
+                    timeSpan += shift.BreakSpan;
+            }
+            return timeSpan;
+        }
+        
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Username", Username);
             info.AddValue("Loan", Loan);
             info.AddValue("Shifts", Shifts);
         }
-
-        #endregion
-
+        
         public void SetLoan(double loan)
         {
             Loan = loan;

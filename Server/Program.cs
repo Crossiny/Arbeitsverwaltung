@@ -280,7 +280,8 @@ namespace Server
                     TcpClient tcpClient = tcpListener.AcceptTcpClient();
                     _connections.Add(new ClientConnection(tcpClient));
                     Console.CursorLeft = 0;
-                    Console.WriteLine($"User connected! \n>");
+                    Console.WriteLine($"User connected!");
+                    Console.Write(">");
                 }
                 Thread.Sleep(10);
             }
