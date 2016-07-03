@@ -35,18 +35,28 @@ namespace Server
                 object receivedObject = _binaryFormatter.Deserialize(_tcpClient.GetStream());
 
                 if (receivedObject.GetType() == typeof(LoginPackage))
-                {
                     SendLoginResponse(receivedObject as LoginPackage);
-                }
+
                 if (receivedObject.GetType() == typeof(RequestUserDataPackage))
-                {
                     SendRequestUserDataResponse(receivedObject as RequestUserDataPackage);
-                }
+
                 if (receivedObject.GetType() == typeof(AddShiftPackage))
-                {
                     SendAddShiftResponsePackage(receivedObject as AddShiftPackage);
-                }
+
+                if (receivedObject.GetType() == typeof(RegisterPackage))
+                    SendRegisterResponse(receivedObject as RegisterPackage);
+
+                if (receivedObject.GetType() == typeof(LogoutPackage))
+                    SendLogoutResponse();
             }
+        }
+
+        private void SendLogoutResponse()
+        {
+            LogoutResponsePackage logoutResponsePackage = new LogoutResponsePackage {Success = true};
+
+            _binaryFormatter.Serialize(_tcpClient.GetStream(), logoutResponsePackage);
+            _tcpClient.Close();
         }
 
         private void SendAddShiftResponsePackage(AddShiftPackage addShiftPackage)
@@ -68,18 +78,14 @@ namespace Server
         private void SendRequestUserDataResponse(RequestUserDataPackage requestUserDataPackage)
         {
             RequestUserDataResponsePackage responsePackage = new RequestUserDataResponsePackage();
-            if (_loggedIn)
+
+            // Erfolgreich wenn der User eingeloggt ist, der angeforderte User existiert
+            // und der User entweder seine eigenen Daten abfragt oder Adminrechte hat.
+            if (_loggedIn && Program.Database.UserExists(requestUserDataPackage.Username)
+                && ((_clientName == requestUserDataPackage.Username) || _isAdmin))
             {
-                if (Program.Database.UserExists(requestUserDataPackage.Username))
-                {
-                    responsePackage.Success = true;
-                    responsePackage.UserData = Program.Database.GetUser(requestUserDataPackage.Username);
-                }
-                else
-                {
-                    responsePackage.Success = false;
-                    responsePackage.UserData = null;
-                }
+                responsePackage.Success = true;
+                responsePackage.UserData = Program.Database.GetUser(requestUserDataPackage.Username);
             }
             else
             {
@@ -108,6 +114,15 @@ namespace Server
                 loginResponsePackage.Success = false;
 
             _binaryFormatter.Serialize(_tcpClient.GetStream(), loginResponsePackage);
+        }
+
+        private void SendRegisterResponse(RegisterPackage registerPackage)
+        {
+            RegisterResponsePackage registerResponsePackage = new RegisterResponsePackage();
+            if (Program.Database.UserExists(registerPackage.Username))
+                registerResponsePackage.Success = false;
+            else
+                registerResponsePackage.Success = Program.Database.AddUser(registerPackage.Username, registerPackage.Password);
         }
     }
 }

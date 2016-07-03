@@ -91,6 +91,7 @@ namespace Arbeitsverwaltung
                 if (input == Settings.Default.IP) return;
 
                 Settings.Default.IP = parsedIpAddress.ToString();
+                Settings.Default.Save();
                 MainWindow.PrintStatus($"IP-Address: {input} saved!");
             }
             else

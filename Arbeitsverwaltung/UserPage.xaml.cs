@@ -29,7 +29,7 @@ namespace Arbeitsverwaltung
             }
             else if (_shift != null)
             {
-                MainWindow.PrintStatus("Shift can't started because you already having a Shift.");
+                MainWindow.PrintStatus("Shift can't be started because you already having a Shift.");
             }
         }
 
@@ -43,7 +43,7 @@ namespace Arbeitsverwaltung
             }
             else if (_shift == null)
             {
-                MainWindow.PrintStatus("You can't stop a Shift before you have no Shift.");
+                MainWindow.PrintStatus("You can't stop a Shift that hasn´t started.");
             }
         }
 
@@ -56,11 +56,11 @@ namespace Arbeitsverwaltung
             }
             else if (_break != null)
             {
-                MainWindow.PrintStatus("Break can't started because you already having a Break.");
+                MainWindow.PrintStatus("Break can't be started because you already having a Break.");
             }
             else if (_shift == null)
             {
-                MainWindow.PrintStatus("You can't start a break before you have no Shift.");
+                MainWindow.PrintStatus("You can't start a break if you haven´t started your shift.");
             }
 
         }
@@ -77,11 +77,11 @@ namespace Arbeitsverwaltung
             }
             else if (_break == null)
             {
-                MainWindow.PrintStatus("You can't stop a break before you have no Break.");
+                MainWindow.PrintStatus("You can't stop a break if you don´t have a break.");
             }
             else if (_shift == null)
             {
-                MainWindow.PrintStatus("You can't stop a break before you have no Shift and no Break.");
+                MainWindow.PrintStatus("You can't stop a break if you haven´t started your.");
             }
         }
     }
