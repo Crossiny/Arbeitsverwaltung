@@ -16,6 +16,7 @@ namespace Server
         private static void Main(string[] args)
         {
             Task t = new Task(AcceptClients);
+            
             t.Start();
             _running = true;
 

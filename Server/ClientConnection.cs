@@ -13,8 +13,7 @@ namespace Server
         private readonly TcpClient _tcpClient;
         private string _clientName;
         private bool _isAdmin;
-        private bool _isConnected;
-
+        private bool _loggedIn = false;
         public ClientConnection(TcpClient tcpClient)
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -31,49 +30,63 @@ namespace Server
 
         private void Start()
         {
-            object receivedObject = _binaryFormatter.Deserialize(_tcpClient.GetStream());
+            while (_tcpClient.Connected)
+            {
+                object receivedObject = _binaryFormatter.Deserialize(_tcpClient.GetStream());
 
-            if (receivedObject.GetType() == typeof(LoginPackage))
-            {
-                SendLoginResponse(receivedObject as LoginPackage);
-            }
-            if (receivedObject.GetType() == typeof(RequestUserDataPackage))
-            {
-                SendRequestUserDataResponse(receivedObject as RequestUserDataPackage);
-            }
-            if (receivedObject.GetType() == typeof(AddShiftPackage))
-            {
-                SendAddShiftResponsePackage(receivedObject as AddShiftPackage);
+                if (receivedObject.GetType() == typeof(LoginPackage))
+                {
+                    SendLoginResponse(receivedObject as LoginPackage);
+                }
+                if (receivedObject.GetType() == typeof(RequestUserDataPackage))
+                {
+                    SendRequestUserDataResponse(receivedObject as RequestUserDataPackage);
+                }
+                if (receivedObject.GetType() == typeof(AddShiftPackage))
+                {
+                    SendAddShiftResponsePackage(receivedObject as AddShiftPackage);
+                }
             }
         }
 
         private void SendAddShiftResponsePackage(AddShiftPackage addShiftPackage)
         {
             AddShiftResponsePackage addShiftResponsePackage = new AddShiftResponsePackage();
-            if (Program.Database.UserExists(_clientName))
+            if (_loggedIn && Program.Database.UserExists(_clientName))
             {
                 Program.Database.AddShift(_clientName, addShiftPackage.shift);
                 addShiftResponsePackage.Success = true;
             }
             else
             {
+                addShiftResponsePackage.NewUser = null;
                 addShiftResponsePackage.Success = false;
             }
+            _binaryFormatter.Serialize(_tcpClient.GetStream(), addShiftResponsePackage);
         }
 
         private void SendRequestUserDataResponse(RequestUserDataPackage requestUserDataPackage)
         {
             RequestUserDataResponsePackage responsePackage = new RequestUserDataResponsePackage();
-            if (Program.Database.UserExists(requestUserDataPackage.Username))
+            if (_loggedIn)
             {
-                responsePackage.Success = true;
-                responsePackage.UserData = Program.Database.GetUser(requestUserDataPackage.Username);
+                if (Program.Database.UserExists(requestUserDataPackage.Username))
+                {
+                    responsePackage.Success = true;
+                    responsePackage.UserData = Program.Database.GetUser(requestUserDataPackage.Username);
+                }
+                else
+                {
+                    responsePackage.Success = false;
+                    responsePackage.UserData = null;
+                }
             }
             else
             {
                 responsePackage.Success = false;
                 responsePackage.UserData = null;
             }
+            _binaryFormatter.Serialize(_tcpClient.GetStream(), responsePackage);
         }
 
         private void SendLoginResponse(LoginPackage loginPackage)
@@ -88,7 +101,7 @@ namespace Server
                 Console.CursorLeft = 0;
                 Console.WriteLine($"{loginPackage.Username} logged in!");
                 _clientName = loginResponsePackage.Username;
-                _isConnected = true;
+                _loggedIn = true;
                 _isAdmin = loginResponsePackage.IsAdmin;
             }
             else

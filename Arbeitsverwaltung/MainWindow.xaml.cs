@@ -36,7 +36,7 @@ namespace Arbeitsverwaltung
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             TcpClient tcpClient = new TcpClient();
-            tcpClient.Connect("127.0.0.1", 1337);
+            tcpClient.Connect(Settings.Default.IP, Settings.Default.Port);
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             binaryFormatter.Serialize(tcpClient.GetStream(), new LoginPackage
             {
