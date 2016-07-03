@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Server.Packages
 {
     [Serializable]
-    class RegisterPackage : ISerializable
+    public class RegisterPackage : ISerializable
     {
         public string Username;
         public string Password;

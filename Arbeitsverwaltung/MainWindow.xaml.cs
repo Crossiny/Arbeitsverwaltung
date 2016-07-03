@@ -2,6 +2,7 @@
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
+using Arbeitsverwaltung.Classes;
 using Arbeitsverwaltung.Properties;
 using Server.Packages;
 
@@ -13,6 +14,7 @@ namespace Arbeitsverwaltung
     public partial class MainWindow : Window
     {
         public static MainWindow Ui;
+        private Client _client = new Client();
 
         public MainWindow()
         {
@@ -35,17 +37,19 @@ namespace Arbeitsverwaltung
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            TcpClient tcpClient = new TcpClient();
-            tcpClient.Connect(Settings.Default.IP, Settings.Default.Port);
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            binaryFormatter.Serialize(tcpClient.GetStream(), new LoginPackage
+            if (_client.Login(UsernameTextBox.Text, PasswordTextBox.Password) == true)
             {
-                Username = UsernameTextBox.Text,
-                Password = PasswordTextBox.Password
-            });
+                AdminItem.IsEnabled = true;
+            }
+            else if (_client.Login(UsernameTextBox.Text, PasswordTextBox.Password) == false)
+            {
+                UserItem.IsEnabled = true;
+            }
+        }
 
-            LoginResponsePackage response = binaryFormatter.Deserialize(tcpClient.GetStream()) as LoginResponsePackage;
-            MessageBox.Show(response.IsAdmin.ToString());
+        private void RegisterButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _client.Register(UsernameTextBox.Text, PasswordTextBox.Password);
         }
     }
 }

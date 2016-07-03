@@ -33,7 +33,7 @@
             <TextBlock Grid.Row="0" Grid.Column="1">Password</TextBlock>
             <PasswordBox Name="PasswordTextBox" Grid.Row="1" Grid.Column="1" />
 
-            <Button Name="RegisterButton" Grid.Row="0" Grid.Column="2">Register</Button>
+            <Button Name="RegisterButton" Grid.Row="0" Grid.Column="2" Click="RegisterButton_OnClick">Register</Button>
             <Button Name="LoginButton" Grid.Row="1" Grid.Column="2" Click="LoginButton_Click">Login</Button>
         </Grid>
 

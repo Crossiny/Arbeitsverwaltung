@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Server.Packages
 {
     [Serializable]
-    class RegisterResponsePackage : ISerializable
+    public class RegisterResponsePackage : ISerializable
     {
         public bool Success;
 
