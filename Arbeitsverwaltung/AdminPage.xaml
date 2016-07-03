@@ -7,9 +7,22 @@
       mc:Ignorable="d"
       d:DesignHeight="300" d:DesignWidth="300"
       Title="AdminPage"
-      Background="WhiteSmoke">
+      Background="WhiteSmoke"
+      MouseEnter="AdminPage_OnMouseEnter">
 
     <Grid>
-        <TextBlock Text="ADMINPAGE" FontSize="20" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBox Name="UsernameTextBox"/>
+        <Button Name="GetUserInfoButton" Grid.Column="1" Content="Get user data"></Button>
+        <ListBox Name="UserListBox" Grid.Row="1"/>
+        <StackPanel Name="StackPanel" Grid.Row="1" Grid.Column="1"></StackPanel>
     </Grid>
 </Page>

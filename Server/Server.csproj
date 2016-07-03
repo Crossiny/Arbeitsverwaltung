@@ -49,6 +49,8 @@
     <Compile Include="Packages\AddShiftResponsePackage.cs" />
     <Compile Include="Packages\GetUserDataPackage.cs" />
     <Compile Include="Packages\GetUserDataResponsePackage.cs" />
+    <Compile Include="Packages\GetUserListResponsePackage.cs" />
+    <Compile Include="Packages\GetUserListPackage.cs" />
     <Compile Include="Packages\LoginPackage.cs" />
     <Compile Include="Packages\LoginResponsePackage.cs" />
     <Compile Include="Packages\LogoutResponsePackage.cs" />

@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
+using Server.Database;
 using Server.Packages;
 
 namespace Server
@@ -41,7 +44,25 @@ namespace Server
 
                 if (receivedObject.GetType() == typeof(LogoutPackage))
                     SendLogoutResponse();
+
+                if (receivedObject.GetType() == typeof(GetUserListPackage))
+                    SendGetUserDataListResponsePackage(receivedObject as GetUserListPackage);
             }
+        }
+
+        private void SendGetUserDataListResponsePackage(GetUserListPackage getUserListPackage)
+        {
+            GetUserListResponsePackage getUserListResponsePackage = new GetUserListResponsePackage();
+            if (Program.Database.GetIsAdmin(getUserListPackage.Username))
+            {
+                List<string> userList = new List<string>();
+                foreach (KeyValuePair<string, User> keyValuePair in Program.Database.UserDictionary)
+                {
+                    userList.Add(keyValuePair.Key);
+                }
+                getUserListResponsePackage.UserList = userList;
+            }
+            _binaryFormatter.Serialize(_tcpClient.GetStream(), getUserListResponsePackage);
         }
 
         public void Close()
@@ -101,6 +122,7 @@ namespace Server
             LoginResponsePackage loginResponsePackage = new LoginResponsePackage();
             if (Program.Database.UserExists(loginPackage.Username))
             {
+                loginResponsePackage.Username = loginPackage.Username;
                 loginResponsePackage.Success = Program.Database.CheckPassword(loginPackage.Username,
                     loginPackage.Password);
                 loginResponsePackage.IsAdmin = Program.Database.GetIsAdmin(loginPackage.Username);
