@@ -13,6 +13,8 @@ namespace Server.Packages
     {
         public User @User;
 
+        public GetUserDataResponsePackage() { }
+
         GetUserDataResponsePackage(SerializationInfo info, StreamingContext context)
         {
             User = info.GetValue("User", typeof(User)) as User;

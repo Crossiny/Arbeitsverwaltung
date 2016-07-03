@@ -47,7 +47,19 @@ namespace Server
 
                 if (receivedObject.GetType() == typeof(GetUserListPackage))
                     SendGetUserDataListResponsePackage(receivedObject as GetUserListPackage);
+
+                if (receivedObject.GetType() == typeof(GetUserDataPackage))
+                    SendGetUserDataPackage(receivedObject as GetUserDataPackage);
             }
+        }
+
+        private void SendGetUserDataPackage(GetUserDataPackage getUserDataPackage)
+        {
+            GetUserDataResponsePackage getUserDataResponsePackage = new GetUserDataResponsePackage()
+            {
+                User = Program.Database.UserDictionary[getUserDataPackage.Username]
+            };
+            _binaryFormatter.Serialize(_tcpClient.GetStream(), getUserDataResponsePackage);
         }
 
         private void SendGetUserDataListResponsePackage(GetUserListPackage getUserListPackage)
