@@ -37,11 +37,12 @@ namespace Arbeitsverwaltung
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_client.Login(UsernameTextBox.Text, PasswordTextBox.Password) == true)
+            bool? isAdmin = _client.Login(UsernameTextBox.Text, PasswordTextBox.Password);
+            if (isAdmin == true)
             {
                 AdminItem.IsEnabled = true;
             }
-            else if (_client.Login(UsernameTextBox.Text, PasswordTextBox.Password) == false)
+            else if (isAdmin == false)
             {
                 UserItem.IsEnabled = true;
             }

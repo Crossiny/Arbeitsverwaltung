@@ -54,6 +54,7 @@ namespace Arbeitsverwaltung
                 //send
                 _binaryFormatter.Serialize(Client.TcpClient.GetStream(), addShiftPackage);
 
+                _shift = null;
                 MainWindow.PrintStatus("Shift is stopped.");
             }
             else if (_shift == null)

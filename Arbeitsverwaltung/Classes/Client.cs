@@ -92,7 +92,6 @@ namespace Arbeitsverwaltung.Classes
             if (receivedObject.GetType() == typeof(LoginResponsePackage))
             {
                 LoginResponsePackage loginResponsePackage = receivedObject as LoginResponsePackage;
-                MessageBox.Show(loginResponsePackage.IsAdmin.ToString());
 
                 if (loginResponsePackage.IsAdmin)
                 {
