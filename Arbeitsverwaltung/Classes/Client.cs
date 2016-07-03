@@ -33,7 +33,6 @@ namespace Arbeitsverwaltung.Classes
             catch (Exception)
             {
                 MainWindow.PrintStatus("Connection to Server failed!");
-                throw;
             }
         }
 

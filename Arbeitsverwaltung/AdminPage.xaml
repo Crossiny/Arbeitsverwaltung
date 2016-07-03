@@ -14,14 +14,8 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <TextBox Name="UsernameTextBox" TextChanged="UsernameTextBox_OnTextChanged"/>
-        <Button Name="GetUserInfoButton" Grid.Column="1" Content="Get user data"></Button>
-        <ListBox Name="UserListBox" Grid.Row="1"/>
-        <StackPanel Name="StackPanel" Grid.Row="1" Grid.Column="1"></StackPanel>
+        <ListBox Name="UserListBox" SelectionChanged="UserListBox_OnSelectionChanged" MouseDoubleClick="UserListBox_OnMouseDoubleClick"/>
+        <StackPanel Name="StackPanel" Grid.Column="1" ></StackPanel>
     </Grid>
 </Page>
