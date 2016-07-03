@@ -8,6 +8,8 @@ namespace Server.Database
     {
         public DateTime StartTime, EndTime;
 
+        public Break() { }
+
         private Break(SerializationInfo info, StreamingContext context)
         {
             StartTime = info.GetDateTime("StartTime");

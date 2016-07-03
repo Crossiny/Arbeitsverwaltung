@@ -10,6 +10,8 @@ namespace Server.Database
         public List<Break> Breaks = new List<Break>();
         public DateTime StartTime, EndTime;
 
+        public Shift() { }
+
         private Shift(SerializationInfo info, StreamingContext context)
         {
             StartTime = info.GetDateTime("StartTime");

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Threading.Tasks;
 using Server.Database;
@@ -13,10 +15,20 @@ namespace Server
         private static bool _running;
         private static int _port = Settings.Default.Port;
         private static List<ClientConnection> _connections = new List<ClientConnection>();
-        public static Database.Database Database = new Database.Database();
-
+        public static Database.Database Database;
         private static void Main(string[] args)
         {
+            FileStream fileStream;
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            if (!File.Exists("DataBase.bin"))
+            {
+                fileStream = new FileStream("DataBase.bin", FileMode.CreateNew);
+                binaryFormatter.Serialize(fileStream, new Database.Database());
+                fileStream.Close();
+            }
+            fileStream =fileStream = new FileStream("DataBase.bin", FileMode.Open);
+            Database = binaryFormatter.Deserialize(fileStream) as Database.Database;
+            fileStream.Close();
             Task t = new Task(AcceptClients);
 
             _running = true;
@@ -25,14 +37,14 @@ namespace Server
             #region Command processing
 
             Console.Write(">");
-            var input = Console.ReadLine().ToLower();
+            var input = Console.ReadLine();
             while (input != "exit")
             {
                 if (input != null)
                 {
                     var inputStrings = input.Split(' ');
 
-                    switch (inputStrings[0])
+                    switch (inputStrings[0].ToLower())
                     {
                         #region IP
 
@@ -43,7 +55,7 @@ namespace Server
                                 Console.WriteLine("Missing parameter!");
                                 Console.WriteLine("ip get             Returns the local IP-Address of the server.");
                             }
-                            else if (inputStrings[1] == "get")
+                            else if (inputStrings[1].ToLower() == "get")
                             {
                                 IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
                                 foreach (IPAddress ip in host.AddressList)
@@ -70,7 +82,7 @@ namespace Server
                             }
                             else
                             {
-                                switch (inputStrings[1])
+                                switch (inputStrings[1].ToLower())
                                 {
                                     case "get":
                                         Console.CursorLeft = 0;
@@ -185,6 +197,7 @@ namespace Server
                                                 break;
                                             }
                                             Database.SetIsAdmin(inputStrings[2], true);
+                                            Console.WriteLine($"User {inputStrings[2]} is now an admin!");
                                         }
                                         else
                                         {
@@ -205,7 +218,8 @@ namespace Server
                                                 Console.WriteLine($"User {inputStrings[2]} is not an admin!");
                                                 break;
                                             }
-                                            Database.SetIsAdmin(inputStrings[2], true);
+                                            Database.SetIsAdmin(inputStrings[2], false);
+                                            Console.WriteLine($"User {inputStrings[2]} is no longer an Admin!");
                                         }
                                         else
                                         {
@@ -248,6 +262,10 @@ namespace Server
                 input = Console.ReadLine();
             }
 
+            fileStream = new FileStream("DataBase.bin", FileMode.Open);
+            new BinaryFormatter().Serialize(fileStream, Database);
+            fileStream.Close();
+
             #endregion
         }
 
@@ -264,6 +282,7 @@ namespace Server
                     Console.CursorLeft = 0;
                     Console.WriteLine($"User connected! \n>");
                 }
+                Thread.Sleep(10);
             }
             foreach (ClientConnection clientConnection in _connections)
             {

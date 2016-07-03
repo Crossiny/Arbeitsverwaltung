@@ -16,13 +16,6 @@ namespace Server
         private bool _loggedIn = false;
         public ClientConnection(TcpClient tcpClient)
         {
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            if (!File.Exists("DataBase.bin"))
-                binaryFormatter.Serialize(new FileStream("DataBase.bin", FileMode.CreateNew), new Database.Database());
-
-            Program.Database =
-                binaryFormatter.Deserialize(new FileStream("DataBase.bin", FileMode.Open)) as Database.Database;
-
             _tcpClient = tcpClient;
             Task t = new Task(Start);
             t.Start();

@@ -7,7 +7,7 @@ namespace Server.Database
     [Serializable]
     internal class Database : ISerializable
     {
-        private readonly Dictionary<string, string> _passwordDictionary = new Dictionary<string, string>();
+        private Dictionary<string, string> _passwordDictionary = new Dictionary<string, string>();
         public Dictionary<string, User> UserDictionary = new Dictionary<string, User>();
 
         public Database()
