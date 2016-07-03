@@ -7,8 +7,7 @@
       mc:Ignorable="d"
       d:DesignHeight="300" d:DesignWidth="300"
       Title="AdminPage"
-      Background="WhiteSmoke"
-      MouseEnter="AdminPage_OnMouseEnter">
+      Background="WhiteSmoke">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -20,7 +19,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBox Name="UsernameTextBox"/>
+        <TextBox Name="UsernameTextBox" TextChanged="UsernameTextBox_OnTextChanged"/>
         <Button Name="GetUserInfoButton" Grid.Column="1" Content="Get user data"></Button>
         <ListBox Name="UserListBox" Grid.Row="1"/>
         <StackPanel Name="StackPanel" Grid.Row="1" Grid.Column="1"></StackPanel>

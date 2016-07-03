@@ -16,6 +16,7 @@ namespace Arbeitsverwaltung.Classes
 
         public void Connect(string ip, int port)
         {
+            TcpClient = new TcpClient();
             try
             {
                 if (string.IsNullOrEmpty(ip))

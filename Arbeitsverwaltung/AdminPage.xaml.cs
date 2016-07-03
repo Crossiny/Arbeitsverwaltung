@@ -17,7 +17,7 @@ namespace Arbeitsverwaltung
             InitializeComponent();
         }
 
-        private void AdminPage_OnMouseEnter(object sender, MouseEventArgs e)
+        private void UsernameTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             GetUserListPackage getUserListPackage = new GetUserListPackage()
             {
