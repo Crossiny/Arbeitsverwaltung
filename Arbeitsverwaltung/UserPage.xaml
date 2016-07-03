@@ -18,6 +18,7 @@
             <RowDefinition Height="25" />
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
         </Grid.RowDefinitions>
 
         <Button Name="StartShiftButton" Content="Start Shift" Grid.Row="0" Grid.Column="0"
@@ -29,5 +30,7 @@
         <Button Name="StopBreakButton" Content="Stop Break" Grid.Row="1" Grid.Column="1"
                 Click="StopBreakButton_OnClick" />
         <StackPanel Name="StackPanel" Grid.Row="2" Grid.ColumnSpan="2" />
+        
+        <Button Name="RefreshListButton" Grid.Row="3" Content="Refresh list" Click="RefreshListButton_OnClick"/>
     </Grid>
 </Page>

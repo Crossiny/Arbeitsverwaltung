@@ -32,7 +32,7 @@ namespace Arbeitsverwaltung
             StackPanel.Children.Clear();
             foreach (Shift shift in getUserDataResponsePackage.User.Shifts)
             {
-                StackPanel.Children.Add(new ShiftElement(shift, getUserDataResponsePackage.User.Loan));
+                StackPanel.Children.Add(new ShiftElement(shift, getUserDataResponsePackage.User.Wage));
             }
         }
 
@@ -44,7 +44,7 @@ namespace Arbeitsverwaltung
             };
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             binaryFormatter.Serialize(Client.TcpClient.GetStream(), getUserListPackage);
-
+            UserListBox.Items.Clear();
             GetUserListResponsePackage getUserListResponsePackage = binaryFormatter.Deserialize(Client.TcpClient.GetStream()) as GetUserListResponsePackage;
             foreach (string user in getUserListResponsePackage.UserList)
             {

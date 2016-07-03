@@ -101,5 +101,24 @@ namespace Arbeitsverwaltung
                 MainWindow.PrintStatus("You can't stop a break if you haven´t started your.");
             }
         }
+
+        private void RefreshListButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            GetUserDataPackage getUserDataPackage = new GetUserDataPackage()
+            {
+                Username = MainWindow.Ui.UsernameTextBox.Text
+            };
+            binaryFormatter.Serialize(Client.TcpClient.GetStream(), getUserDataPackage);
+
+            GetUserDataResponsePackage getUserDataResponsePackage = binaryFormatter.Deserialize(Client.TcpClient.GetStream()) as GetUserDataResponsePackage;
+
+            StackPanel.Children.Clear();
+            if (getUserDataResponsePackage != null)
+                foreach (Shift shift in getUserDataResponsePackage.User.Shifts)
+                {
+                    StackPanel.Children.Add(new ShiftElement(shift, getUserDataResponsePackage.User.Wage));
+                }
+        }
     }
 }

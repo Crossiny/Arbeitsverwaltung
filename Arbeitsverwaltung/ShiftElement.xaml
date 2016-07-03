@@ -27,7 +27,7 @@
         <TextBlock Text="Break: " Grid.Column="0" Grid.Row="1" FontSize="14"/>
         <TextBlock Name="BreakTimeSpan" Grid.Row="1" Grid.Column="1" Text="TimeSpan" FontSize="14"/>
 
-        <TextBlock Text="Loan: " Grid.Column="0" Grid.Row="2" FontSize="14"/>
-        <TextBlock Name="LoanTextBlock" Grid.Row="2" Grid.Column="1" Text="Loan" FontSize="14"/>
+        <TextBlock Text="Wage: " Grid.Column="0" Grid.Row="2" FontSize="14"/>
+        <TextBlock Name="WageTextBlock" Grid.Row="2" Grid.Column="1" Text="Wage" FontSize="14"/>
     </Grid>
 </UserControl>

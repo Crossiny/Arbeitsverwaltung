@@ -22,6 +22,8 @@ namespace Arbeitsverwaltung
             Ui = this;
             UsernameTextBox.Text = Settings.Default.DefaultUsername;
             PasswordTextBox.Password = Settings.Default.DefaultPassword;
+            if (Settings.Default.AutoLogin)
+                LoginButton_Click(LoginButton, new RoutedEventArgs());
         }
 
         public static void PrintStatus(string status)
@@ -47,6 +49,12 @@ namespace Arbeitsverwaltung
             {
                 UserItem.IsEnabled = true;
                 AdminItem.IsEnabled = false;
+            }
+            else if (isAdmin == null)
+            {
+                UserItem.IsEnabled = false;
+                AdminItem.IsEnabled = false;
+                MainWindow.PrintStatus("Wrong login data!");
             }
         }
 

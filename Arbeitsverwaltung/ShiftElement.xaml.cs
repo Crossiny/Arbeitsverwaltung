@@ -21,7 +21,7 @@ namespace Arbeitsverwaltung
     /// </summary>
     public partial class ShiftElement : UserControl
     {
-        public ShiftElement(Shift shift, double loan)
+        public ShiftElement(Shift shift, double wage)
         {
             InitializeComponent();
             ShiftFromToTextBlock.Text =
@@ -33,7 +33,7 @@ namespace Arbeitsverwaltung
 
             BreakTimeSpan.Text = $"{shift.BreakSpan.Hours}:{shift.BreakSpan.Minutes}:{shift.BreakSpan.Seconds}";
 
-            LoanTextBlock.Text = $"{shift.WorkSpan.Hours*loan + shift.WorkSpan.Minutes*(loan/60)}€";
+            WageTextBlock.Text = $"{shift.WorkSpan.Hours*wage + shift.WorkSpan.Minutes*(wage/60)}€";
         }
     }
 }

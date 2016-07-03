@@ -26,7 +26,7 @@ namespace Server
                 binaryFormatter.Serialize(fileStream, new Database.Database());
                 fileStream.Close();
             }
-            fileStream =fileStream = new FileStream("DataBase.bin", FileMode.Open);
+            fileStream = fileStream = new FileStream("DataBase.bin", FileMode.Open);
             Database = binaryFormatter.Deserialize(fileStream) as Database.Database;
             fileStream.Close();
             Task t = new Task(AcceptClients);
@@ -239,6 +239,78 @@ namespace Server
                             break;
                         #endregion
 
+                        #region User
+                        case "user":
+                            if (inputStrings.Length == 1)
+                            {
+                                Console.WriteLine("Missing parameter!");
+                                Console.WriteLine("user list                Shows a list of all users");
+                            }
+                            if (inputStrings.Length == 2)
+                            {
+                                if (inputStrings[1].ToLower() == "list")
+                                    foreach (string key in Database.UserDictionary.Keys)
+                                    {
+                                        Console.WriteLine(key);
+                                    }
+                                else
+                                {
+                                    Console.WriteLine("Wrong parameter!");
+                                    Console.WriteLine("user list                Shows a list of all users");
+                                }
+                            }
+                            if (inputStrings.Length == 3)
+                            {
+                                if (inputStrings[1] == "getwage")
+                                {
+                                    string username = inputStrings[2];
+                                    if (Database.UserExists(username))
+                                        Console.WriteLine($"{username} earns {Database.UserDictionary[username].Wage}€/hour");
+
+                                    else Console.WriteLine($"User {username} does not exist!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Wrong parameter!");
+                                    Console.WriteLine("user getwage [Username]  Gets the wage of an user");
+                                }
+                            }
+                            if (inputStrings.Length == 4)
+                            {
+                                if (inputStrings[1] == "setwage")
+                                {
+                                    string username = inputStrings[2];
+                                    if (!Database.UserExists(username))
+                                    {
+                                        Console.WriteLine($"User {username} does not exist!");
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        double wage;
+                                        if (double.TryParse(inputStrings[3], out wage) && wage > 0)
+                                        {
+                                            Database.UserDictionary[username].Wage = wage;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine($"{wage}€ is not a valid wage!");
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        #endregion
+
+                        #region Save
+                        case "save":
+                            fileStream = new FileStream("DataBase.bin", FileMode.Open);
+                            new BinaryFormatter().Serialize(fileStream, Database);
+                            fileStream.Close();
+                            Console.WriteLine("Config saved!");
+                            break;
+                        #endregion
+
                         #region Help
 
                         case "help":
@@ -251,8 +323,12 @@ namespace Server
                             Console.WriteLine("help                     Shows this message");
                             Console.WriteLine("admin promote [Username] Promotes user to admin.");
                             Console.WriteLine("admin demote [Username]  Demotes admin to user.");
-                            Console.WriteLine("admin list               Shows a list of admins");
-                            Console.WriteLine("Exit                     Closes the application.");
+                            Console.WriteLine("admin list               Shows a list of all admins");
+                            Console.WriteLine("user list                Shows a list of all users");
+                            Console.WriteLine("user setwage [Username] [newWage]    Sets the payment of an User");
+                            Console.WriteLine("user getwage [Username]  Gets the wage of an user");
+                            Console.WriteLine("save                     Saves the database/config");
+                            Console.WriteLine("exit                     Closes the application.");
                             break;
 
                             #endregion

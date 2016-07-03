@@ -17,12 +17,12 @@ namespace Server.Database
         private User(SerializationInfo info, StreamingContext context)
         {
             Username = info.GetString("Username");
-            Loan = info.GetDouble("Loan");
+            Wage = info.GetDouble("Wage");
             Shifts = info.GetValue("Shifts", typeof(List<Shift>)) as List<Shift>;
         }
 
         public string Username;
-        public double Loan = 8;
+        public double Wage = 8;
         public bool IsAdmin;
 
         public TimeSpan WorkSpan
@@ -76,13 +76,13 @@ namespace Server.Database
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Username", Username);
-            info.AddValue("Loan", Loan);
+            info.AddValue("Wage", Wage);
             info.AddValue("Shifts", Shifts);
         }
         
-        public void SetLoan(double loan)
+        public void SetWage(double wage)
         {
-            Loan = loan;
+            Wage = wage;
         }
 
         public void SetAdmin(bool isAdmin)

@@ -51,18 +51,22 @@ namespace Arbeitsverwaltung.Classes
                 Password = password,
                 Username = username
             };
-
-            //send
-            _binaryFormatter.Serialize(TcpClient.GetStream(), registerPackage);
-
-            //receive
-            object receivedObject = _binaryFormatter.Deserialize(TcpClient.GetStream());
-
-            if (receivedObject.GetType() == typeof(RegisterResponsePackage))
+            if (TcpClient.Connected)
             {
-                RegisterResponsePackage registerResponsePackage = receivedObject as RegisterResponsePackage;
-            }
+                _binaryFormatter.Serialize(TcpClient.GetStream(), registerPackage);
 
+                object receivedObject = _binaryFormatter.Deserialize(TcpClient.GetStream());
+
+                if (receivedObject.GetType() == typeof(RegisterResponsePackage))
+                {
+                    RegisterResponsePackage registerResponsePackage = receivedObject as RegisterResponsePackage;
+
+                    if (registerResponsePackage.Success)
+                        MainWindow.PrintStatus("Registered successfully!");
+                    else
+                        MainWindow.PrintStatus("Registration failed!");
+                }
+            }
             TcpClient.Close();
         }
 
@@ -84,26 +88,28 @@ namespace Arbeitsverwaltung.Classes
                 Password = password,
                 Username = username
             };
-
-            _binaryFormatter.Serialize(TcpClient.GetStream(), loginPackage);
-
-            object receivedObject = _binaryFormatter.Deserialize(TcpClient.GetStream());
-
-            if (receivedObject.GetType() == typeof(LoginResponsePackage))
+            if (TcpClient.Connected)
             {
-                LoginResponsePackage loginResponsePackage = receivedObject as LoginResponsePackage;
+                _binaryFormatter.Serialize(TcpClient.GetStream(), loginPackage);
 
-                if (loginResponsePackage != null && !loginResponsePackage.Success)
+                object receivedObject = _binaryFormatter.Deserialize(TcpClient.GetStream());
+
+                if (receivedObject.GetType() == typeof(LoginResponsePackage))
                 {
-                    return null;
-                }
-                else if (loginResponsePackage != null && loginResponsePackage.IsAdmin)
-                {
-                    return true;
-                }
-                else if (loginResponsePackage != null && !loginResponsePackage.IsAdmin)
-                {
-                    return false;
+                    LoginResponsePackage loginResponsePackage = receivedObject as LoginResponsePackage;
+
+                    if (loginResponsePackage != null && !loginResponsePackage.Success)
+                    {
+                        return null;
+                    }
+                    else if (loginResponsePackage != null && loginResponsePackage.IsAdmin)
+                    {
+                        return true;
+                    }
+                    else if (loginResponsePackage != null && !loginResponsePackage.IsAdmin)
+                    {
+                        return false;
+                    }
                 }
             }
 
