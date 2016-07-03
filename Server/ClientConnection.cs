@@ -34,6 +34,9 @@ namespace Server
             {
                 object receivedObject = _binaryFormatter.Deserialize(_tcpClient.GetStream());
 
+                if (receivedObject.GetType() == typeof(RegisterPackage))
+                    SendRegisterResponse(receivedObject as RegisterPackage);
+
                 if (receivedObject.GetType() == typeof(LoginPackage))
                     SendLoginResponse(receivedObject as LoginPackage);
 
@@ -43,12 +46,14 @@ namespace Server
                 if (receivedObject.GetType() == typeof(AddShiftPackage))
                     SendAddShiftResponsePackage(receivedObject as AddShiftPackage);
 
-                if (receivedObject.GetType() == typeof(RegisterPackage))
-                    SendRegisterResponse(receivedObject as RegisterPackage);
-
                 if (receivedObject.GetType() == typeof(LogoutPackage))
                     SendLogoutResponse();
             }
+        }
+
+        public void Close()
+        {
+            _tcpClient.Close();
         }
 
         private void SendLogoutResponse()
@@ -102,10 +107,10 @@ namespace Server
             {
                 loginResponsePackage.Success = Program.Database.CheckPassword(loginPackage.Username,
                     loginPackage.Password);
-                loginResponsePackage.IsAdmin = Program.Database.IsAdmin(loginPackage.Username);
+                loginResponsePackage.IsAdmin = Program.Database.GetIsAdmin(loginPackage.Username);
 
                 Console.CursorLeft = 0;
-                Console.WriteLine($"{loginPackage.Username} logged in!");
+                Console.WriteLine($"{loginPackage.Username} logged in! \n>");
                 _clientName = loginResponsePackage.Username;
                 _loggedIn = true;
                 _isAdmin = loginResponsePackage.IsAdmin;
@@ -123,6 +128,7 @@ namespace Server
                 registerResponsePackage.Success = false;
             else
                 registerResponsePackage.Success = Program.Database.AddUser(registerPackage.Username, registerPackage.Password);
+            _binaryFormatter.Serialize(_tcpClient.GetStream(), registerResponsePackage);
         }
     }
 }

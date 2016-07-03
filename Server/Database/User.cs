@@ -21,9 +21,9 @@ namespace Server.Database
             Shifts = info.GetValue("Shifts", typeof(List<Shift>)) as List<Shift>;
         }
 
-        public string Username { get; }
-        public double Loan { get; private set; }
-        public bool IsAdmin { get; private set; }
+        public string Username;
+        public double Loan;
+        public bool IsAdmin;
 
         public TimeSpan WorkedSpan
         {

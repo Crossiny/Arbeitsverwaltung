@@ -8,7 +8,7 @@ namespace Server.Database
     internal class Database : ISerializable
     {
         private readonly Dictionary<string, string> _passwordDictionary = new Dictionary<string, string>();
-        private readonly Dictionary<string, User> _userDictionary = new Dictionary<string, User>();
+        public Dictionary<string, User> UserDictionary = new Dictionary<string, User>();
 
         public Database()
         {
@@ -18,7 +18,7 @@ namespace Server.Database
         {
             _passwordDictionary =
                 info.GetValue("PasswordDictionary", typeof(Dictionary<string, string>)) as Dictionary<string, string>;
-            _userDictionary =
+            UserDictionary =
                 info.GetValue("UserDictionary", typeof(Dictionary<string, User>)) as Dictionary<string, User>;
         }
 
@@ -27,14 +27,14 @@ namespace Server.Database
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("PasswordDictionary", _passwordDictionary);
-            info.AddValue("UserDictionary", _userDictionary);
+            info.AddValue("UserDictionary", UserDictionary);
         }
 
         #endregion
 
         public bool UserExists(string username)
         {
-            return _passwordDictionary.ContainsKey(username) & _userDictionary.ContainsKey(username);
+            return _passwordDictionary.ContainsKey(username) & UserDictionary.ContainsKey(username);
         }
 
         public bool CheckPassword(string username, string password)
@@ -46,14 +46,14 @@ namespace Server.Database
         public User GetUser(string username)
         {
             if (!UserExists(username)) return null;
-            return _userDictionary[username];
+            return UserDictionary[username];
         }
 
         public bool SetUser(string username, User user)
         {
             if (UserExists(username))
             {
-                _userDictionary[username] = user;
+                UserDictionary[username] = user;
                 return true;
             }
             return false;
@@ -64,18 +64,26 @@ namespace Server.Database
             if (UserExists(username))
                 return false;
             _passwordDictionary.Add(username, password);
-            _userDictionary.Add(username, new User(username));
+            UserDictionary.Add(username, new User(username));
             return true;
         }
 
-        public bool IsAdmin(string username)
+        public bool GetIsAdmin(string username)
         {
-            return UserExists(username) && _userDictionary[username].IsAdmin;
+            return UserExists(username) && UserDictionary[username].IsAdmin;
+        }
+
+        public void SetIsAdmin(string username, bool isAdmin)
+        {
+            if (UserExists(username))
+            {
+                UserDictionary[username].IsAdmin = isAdmin;
+            }
         }
 
         public void AddShift(string username, Shift shift)
         {
-            _userDictionary[username].AddShift(shift);
+            UserDictionary[username].AddShift(shift);
         }
     }
 }
