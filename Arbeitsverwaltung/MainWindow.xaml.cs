@@ -1,8 +1,9 @@
 ﻿using System;
-using System.CodeDom.Compiler;
+using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
-using System.Windows.Media;
 using Arbeitsverwaltung.Properties;
+using Server.Packages;
 
 namespace Arbeitsverwaltung
 {
@@ -12,6 +13,7 @@ namespace Arbeitsverwaltung
     public partial class MainWindow : Window
     {
         public static MainWindow Ui;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,6 +31,21 @@ namespace Arbeitsverwaltung
         private void OnClosing(object sender, EventArgs e)
         {
             SettingsPage.Save();
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            TcpClient tcpClient = new TcpClient();
+            tcpClient.Connect("127.0.0.1", 1337);
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            binaryFormatter.Serialize(tcpClient.GetStream(), new LoginPackage
+            {
+                Username = UsernameTextBox.Text,
+                Password = PasswordTextBox.Password
+            });
+
+            LoginResponsePackage response = binaryFormatter.Deserialize(tcpClient.GetStream()) as LoginResponsePackage;
+            MessageBox.Show(response.IsAdmin.ToString());
         }
     }
 }

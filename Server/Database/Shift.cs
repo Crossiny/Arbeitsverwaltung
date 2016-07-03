@@ -1,11 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Server.Database
 {
-    class Shift
+    [Serializable]
+    public class Shift : ISerializable
     {
+        public List<Break> Breaks = new List<Break>();
         public DateTime StartTime, EndTime;
+
+        private Shift(SerializationInfo info, StreamingContext context)
+        {
+            StartTime = info.GetDateTime("StartTime");
+            EndTime = info.GetDateTime("EndTime");
+            Breaks = info.GetValue("Breaks", typeof(List<Break>)) as List<Break>;
+        }
 
         public TimeSpan WorkSpan
         {
@@ -32,6 +42,12 @@ namespace Server.Database
                 return breakSpan;
             }
         }
-        public List<Break> Breaks = new List<Break>();
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("StartTime", StartTime);
+            info.AddValue("EndTime", EndTime);
+            info.AddValue("Breaks", Breaks);
+        }
     }
 }

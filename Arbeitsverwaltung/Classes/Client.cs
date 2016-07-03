@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Sockets;
 using System.Diagnostics;
-using System.;
+using System.Net.Sockets;
 
 namespace Arbeitsverwaltung.Classes
 {
-    class Client
+    internal class Client
     {
         private readonly Dictionary<string, string> _dictionary = new Dictionary<string, string>();
 
@@ -31,7 +27,7 @@ namespace Arbeitsverwaltung.Classes
             {
                 Debug.Print("Connection to Server failed!");
                 throw;
-            }            
+            }
         }
 
         public void Register(string username, string password)

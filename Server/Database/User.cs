@@ -1,13 +1,29 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Server.Database
 {
-    class User
+    [Serializable]
+    public class User : ISerializable
     {
-        public string Username { get; }
-        public int Loan { get; }
         public List<Shift> Shifts = new List<Shift>();
+
+        public User(string username)
+        {
+            Username = username;
+        }
+
+        private User(SerializationInfo info, StreamingContext context)
+        {
+            Username = info.GetString("Username");
+            Loan = info.GetDouble("Loan");
+            Shifts = info.GetValue("Shifts", typeof(List<Shift>)) as List<Shift>;
+        }
+
+        public string Username { get; }
+        public double Loan { get; private set; }
+        public bool IsAdmin { get; private set; }
 
         public TimeSpan WorkedSpan
         {
@@ -35,10 +51,21 @@ namespace Server.Database
             }
         }
 
-        public User(string username, int loan)
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            Username = username;
+            info.AddValue("Username", Username);
+            info.AddValue("Loan", Loan);
+            info.AddValue("Shifts", Shifts);
+        }
+
+        public void SetLoan(double loan)
+        {
             Loan = loan;
+        }
+
+        public void SetAdmin(bool isAdmin)
+        {
+            IsAdmin = isAdmin;
         }
     }
 }

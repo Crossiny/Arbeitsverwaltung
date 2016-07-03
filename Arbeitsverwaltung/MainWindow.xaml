@@ -5,39 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Arbeitsverwaltung"
         mc:Ignorable="d"
-        Title="MainWindow" 
+        Title="MainWindow"
         Height="400" Width="600"
         MinHeight="200" MinWidth="250"
         Closing="OnClosing">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row ="0" Grid.RowSpan="2">
+        <Grid Grid.Row="0" Grid.RowSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="20" />
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Grid.Column="0">Username:</TextBlock>
-            <TextBox Name="UsernameTextBox" Grid.Row="1" Grid.Column="0"></TextBox>
+            <TextBox Name="UsernameTextBox" Grid.Row="1" Grid.Column="0" />
 
             <TextBlock Grid.Row="0" Grid.Column="1">Password</TextBlock>
-            <PasswordBox Name="PasswordTextBox" Grid.Row="1" Grid.Column="1"></PasswordBox>
+            <PasswordBox Name="PasswordTextBox" Grid.Row="1" Grid.Column="1" />
 
             <Button Name="RegisterButton" Grid.Row="0" Grid.Column="2">Register</Button>
-            <Button Name="LoginButton" Grid.Row="1" Grid.Column="2">Login</Button>
+            <Button Name="LoginButton" Grid.Row="1" Grid.Column="2" Click="LoginButton_Click">Login</Button>
         </Grid>
 
-        <TabControl Grid.Row="1" >
+        <TabControl Grid.Row="1">
             <TabItem Name="UserItem" Header="User" IsEnabled="False">
                 <Frame Name="UserFrame">
                     <Frame.Content>
@@ -64,7 +64,7 @@
         </TabControl>
 
         <StatusBar Grid.Row="2">
-            <StatusBarItem Name="InfoBarItem"/>
+            <StatusBarItem Name="InfoBarItem" />
         </StatusBar>
     </Grid>
 </Window>

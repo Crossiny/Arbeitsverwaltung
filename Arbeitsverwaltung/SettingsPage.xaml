@@ -11,30 +11,30 @@
     <ScrollViewer>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <!-- Login Settings -->
             <TextBlock Grid.Row="0" Grid.ColumnSpan="2" TextAlignment="Center">Autologin Settings</TextBlock>
             <TextBlock Grid.Row="1" Grid.Column="0">Username:</TextBlock>
-            <TextBox Name="DefaultUsernameTextBox" Grid.Row="1" Grid.Column="1" LostFocus="UsernameChanged"></TextBox>
+            <TextBox Name="DefaultUsernameTextBox" Grid.Row="1" Grid.Column="1" LostFocus="UsernameChanged" />
             <TextBlock Grid.Row="2" Grid.Column="0">Password:</TextBlock>
-            <PasswordBox Name="DefaultPasswordTextBox" Grid.Row="2" Grid.Column="1" LostFocus="PasswordChanged"></PasswordBox>
+            <PasswordBox Name="DefaultPasswordTextBox" Grid.Row="2" Grid.Column="1" LostFocus="PasswordChanged" />
             <TextBlock Grid.Row="3" Grid.Column="0">Auto-Login on Start</TextBlock>
-            <CheckBox Name="AutoLoginCheckBox" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" 
-                  Checked="AutoLoginChanged" Unchecked="AutoLoginChanged" IsThreeState="False"></CheckBox>
+            <CheckBox Name="AutoLoginCheckBox" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center"
+                      Checked="AutoLoginChanged" Unchecked="AutoLoginChanged" IsThreeState="False" />
 
             <!-- Server Settings -->
             <TextBlock Grid.Row="5" Grid.ColumnSpan="2" TextAlignment="Center">Connection Settings</TextBlock>

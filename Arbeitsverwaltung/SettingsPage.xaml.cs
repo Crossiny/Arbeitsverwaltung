@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Net;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using Arbeitsverwaltung.Properties;
-using Microsoft.Win32;
 
 namespace Arbeitsverwaltung
 {
@@ -15,6 +13,7 @@ namespace Arbeitsverwaltung
     public partial class SettingsPage : Page
     {
         private static SettingsPage _settingsPage;
+
         public SettingsPage()
         {
             InitializeComponent();
@@ -31,15 +30,15 @@ namespace Arbeitsverwaltung
 
         private void UsernameChanged(object sender, RoutedEventArgs e)
         {
-            string input = ((TextBox)sender).Text;
-            if ((input == Settings.Default.DefaultUsername)) return;
+            var input = ((TextBox) sender).Text;
+            if (input == Settings.Default.DefaultUsername) return;
 
             // Überprüft ob der Username ungültige Zeichen enthält.
             if (new Regex("[^0-9a-z]", RegexOptions.IgnoreCase).IsMatch(input))
             {
                 DefaultUsernameTextBox.Text = Settings.Default.DefaultUsername;
                 MessageBox.Show($"{input} is not a valid username! \n(Only letters or digits!)", "Error",
-                                MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             else
@@ -52,7 +51,7 @@ namespace Arbeitsverwaltung
 
         private void PasswordChanged(object sender, RoutedEventArgs e)
         {
-            string input = ((PasswordBox)sender).Password;
+            var input = ((PasswordBox) sender).Password;
 
             // Überprüft ob das Passwort ungültige Zeichen enthält.
             if (new Regex("[^0-9a-z]", RegexOptions.IgnoreCase).IsMatch(input))
@@ -73,7 +72,7 @@ namespace Arbeitsverwaltung
 
         private void AutoLoginChanged(object sender, RoutedEventArgs e)
         {
-            bool autoLogin = (bool)((CheckBox)sender).IsChecked;
+            var autoLogin = (bool) ((CheckBox) sender).IsChecked;
             Settings.Default.AutoLogin = autoLogin;
             Settings.Default.Save();
             MainWindow.PrintStatus($"Autologin {autoLogin}");
@@ -81,8 +80,8 @@ namespace Arbeitsverwaltung
 
         private void IpChanged(object sender, RoutedEventArgs e)
         {
-            string input = ((TextBox)sender).Text;
-            if (( input == "" ) || ( input==Settings.Default.IP )) return;
+            var input = ((TextBox) sender).Text;
+            if ((input == "") || (input == Settings.Default.IP)) return;
 
             // Überprüft ob eine gültige IP eingegeben wurde.
             IPAddress parsedIpAddress;
@@ -96,14 +95,15 @@ namespace Arbeitsverwaltung
             }
             else
             {
-                MessageBox.Show($"{input} is not a valid IP-Address!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{input} is not a valid IP-Address!", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
                 IpTextBox.Text = Settings.Default.IP;
             }
         }
 
         private void PortChanged(object sender, RoutedEventArgs e)
         {
-            string input = ((TextBox)sender).Text;
+            var input = ((TextBox) sender).Text;
             if (input == "") return;
 
             // Überprüft ob die Eingabe ein int ist und in der Range von verfügbaren Ports liegt.
@@ -119,7 +119,8 @@ namespace Arbeitsverwaltung
             }
             else
             {
-                MessageBox.Show($"{PortTextBox.Text} is not a valid port!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{PortTextBox.Text} is not a valid port!", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
                 PortTextBox.Text = Settings.Default.Port.ToString();
             }
         }
