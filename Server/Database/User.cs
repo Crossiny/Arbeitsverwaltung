@@ -22,7 +22,7 @@ namespace Server.Database
         }
 
         public string Username;
-        public double Loan;
+        public double Loan = 8;
         public bool IsAdmin;
 
         public TimeSpan WorkSpan

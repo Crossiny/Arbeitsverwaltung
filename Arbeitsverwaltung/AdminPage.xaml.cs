@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Arbeitsverwaltung.Classes;
+using Server.Database;
 using Server.Packages;
 
 namespace Arbeitsverwaltung
@@ -17,8 +18,25 @@ namespace Arbeitsverwaltung
             InitializeComponent();
         }
 
+        private void UserListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (UserListBox.SelectedIndex == -1) return;
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            GetUserDataPackage getUserDataPackage = new GetUserDataPackage()
+            {
+                Username = UserListBox.Items[UserListBox.SelectedIndex].ToString()
+            };
+            binaryFormatter.Serialize(Client.TcpClient.GetStream(), getUserDataPackage);
 
-        private void UserListBox_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+            GetUserDataResponsePackage getUserDataResponsePackage = binaryFormatter.Deserialize(Client.TcpClient.GetStream()) as GetUserDataResponsePackage;
+            StackPanel.Children.Clear();
+            foreach (Shift shift in getUserDataResponsePackage.User.Shifts)
+            {
+                StackPanel.Children.Add(new ShiftElement(shift, getUserDataResponsePackage.User.Loan));
+            }
+        }
+
+        private void RefreshUserListButton_OnClick(object sender, RoutedEventArgs e)
         {
             GetUserListPackage getUserListPackage = new GetUserListPackage()
             {
@@ -32,19 +50,6 @@ namespace Arbeitsverwaltung
             {
                 UserListBox.Items.Add(user);
             }
-        }
-
-        private void UserListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (UserListBox.SelectedIndex == -1) return;
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            GetUserDataPackage getUserDataPackage = new GetUserDataPackage()
-            {
-                Username = UserListBox.Items[UserListBox.SelectedIndex].ToString()
-            };
-            binaryFormatter.Serialize(Client.TcpClient.GetStream(), getUserDataPackage);
-
-            GetUserDataResponsePackage getUserDataResponsePackage = binaryFormatter.Deserialize(Client.TcpClient.GetStream()) as GetUserDataResponsePackage;
         }
     }
 }

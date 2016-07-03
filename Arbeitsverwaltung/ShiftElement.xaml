@@ -4,13 +4,30 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Arbeitsverwaltung"
-             mc:Ignorable="d" d:DesignWidth="300"
-             Background="WhiteSmoke" Height="95.783">
+             mc:Ignorable="d" d:DesignWidth="400"
+             Background="WhiteSmoke" Height="75"
+             BorderBrush="LightBlue"
+             BorderThickness="1">
     <Grid>
-        <TextBlock x:Name="textBlockShift" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Arbeitszeit: " VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlockShiftGestime" HorizontalAlignment="Left" Margin="200,10,0,0" TextWrapping="Wrap" Text="Zeit" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlockBreak" HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="Pause: " VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlockShiftTime" HorizontalAlignment="Left" Margin="77,10,0,0" TextWrapping="Wrap" Text="Von bis Wann" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlockBreakGestime" HorizontalAlignment="Left" Margin="200,31,0,0" TextWrapping="Wrap" Text="Zeit" VerticalAlignment="Top"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="40"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Time worked: " Grid.Row="0" Grid.Column="0" FontSize="14" />
+        <TextBlock Name="ShiftFromToTextBlock" Grid.Column="1" Grid.Row="0" Text="Time - Time" FontSize="14"/>
+        <TextBlock Name="ShiftTimeSpanTextBlock" Grid.Column="2" Grid.Row="0" Text="TimeSpan" FontSize="14"/>
+
+        <TextBlock Text="Break: " Grid.Column="0" Grid.Row="1" FontSize="14"/>
+        <TextBlock Name="BreakTimeSpan" Grid.Row="1" Grid.Column="1" Text="TimeSpan" FontSize="14"/>
+
+        <TextBlock Text="Loan: " Grid.Column="0" Grid.Row="2" FontSize="14"/>
+        <TextBlock Name="LoanTextBlock" Grid.Row="2" Grid.Column="1" Text="Loan" FontSize="14"/>
     </Grid>
 </UserControl>

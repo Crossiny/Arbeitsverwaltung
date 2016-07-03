@@ -21,14 +21,19 @@ namespace Arbeitsverwaltung
     /// </summary>
     public partial class ShiftElement : UserControl
     {
-        public ShiftElement(Shift shift)
+        public ShiftElement(Shift shift, double loan)
         {
             InitializeComponent();
+            ShiftFromToTextBlock.Text =
+                $"{shift.StartTime.Day}.{shift.StartTime.Month}.{shift.StartTime.Year}: " +
+                $"{shift.StartTime.Hour}:{shift.StartTime.Minute} - " +
+                $"{shift.EndTime.Hour}:{shift.EndTime.Minute}";
 
-            textBlockShiftTime.Text = $"{shift.StartTime} - {shift.EndTime}";
-            textBlockShiftGestime.Text = shift.WorkSpan.ToString();
+            ShiftTimeSpanTextBlock.Text = $"{shift.WorkSpan.Hours}:{shift.WorkSpan.Minutes}:{shift.WorkSpan.Seconds}";
 
-            textBlockBreakGestime.Text = shift.BreakSpan.ToString();
+            BreakTimeSpan.Text = $"{shift.BreakSpan.Hours}:{shift.BreakSpan.Minutes}:{shift.BreakSpan.Seconds}";
+
+            LoanTextBlock.Text = $"{shift.WorkSpan.Hours*loan + shift.WorkSpan.Minutes*(loan/60)}€";
         }
     }
 }
