@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Data.SqlTypes;
+using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
+using Arbeitsverwaltung.Classes;
 using Server.Database;
+using Server.Packages;
 
 namespace Arbeitsverwaltung
 {
@@ -13,6 +17,8 @@ namespace Arbeitsverwaltung
     {
         private Shift _shift;
         private Break _break;
+
+        private BinaryFormatter _binaryFormatter = new BinaryFormatter();
 
         public UserPage()
         {
@@ -40,6 +46,14 @@ namespace Arbeitsverwaltung
             {
                 _shift.EndTime = DateTime.Now;
 
+                AddShiftPackage addShiftPackage = new AddShiftPackage()
+                {
+                    shift = _shift
+                };
+
+                //send
+                _binaryFormatter.Serialize(Client.TcpClient.GetStream(), addShiftPackage);
+
                 MainWindow.PrintStatus("Shift is stopped.");
             }
             else if (_shift == null)
@@ -52,6 +66,7 @@ namespace Arbeitsverwaltung
         {
             if (_break == null && _shift != null)
             {
+                _break = new Break();
                 _break.StartTime = DateTime.Now;
                 MainWindow.PrintStatus("Break is started.");
             }

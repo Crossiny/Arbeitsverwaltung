@@ -5,7 +5,7 @@ using Server.Database;
 namespace Server.Packages
 {
     [Serializable]
-    internal class AddShiftResponsePackage : ISerializable
+    public class AddShiftResponsePackage : ISerializable
     {
         public bool Success;
         public User NewUser;

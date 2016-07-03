@@ -5,7 +5,7 @@ using Server.Database;
 namespace Server.Packages
 {
     [Serializable]
-    internal class AddShiftPackage : ISerializable
+    public class AddShiftPackage : ISerializable
     {
         public Shift shift;
 

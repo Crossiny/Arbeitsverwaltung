@@ -12,7 +12,7 @@ namespace Arbeitsverwaltung.Classes
     internal class Client
     {
         private BinaryFormatter _binaryFormatter = new BinaryFormatter();
-        private TcpClient _tcpClient;
+        public static TcpClient TcpClient;
 
         public void Connect(string ip, int port)
         {
@@ -25,7 +25,7 @@ namespace Arbeitsverwaltung.Classes
                 else
                 {
 
-                    _tcpClient.Connect(ip, port);
+                    TcpClient.Connect(ip, port);
                     MainWindow.PrintStatus("Connection to Server successfully!");
                 }
             }
@@ -38,10 +38,10 @@ namespace Arbeitsverwaltung.Classes
 
         public void Register(string username, string password)
         {
-            if(_tcpClient == null)
-                _tcpClient = new TcpClient();
+            if(TcpClient == null)
+                TcpClient = new TcpClient();
 
-            if (!_tcpClient.Connected)
+            if (!TcpClient.Connected)
             {
                 Connect(Settings.Default.IP, Settings.Default.Port);
             }
@@ -52,16 +52,18 @@ namespace Arbeitsverwaltung.Classes
                 Username = username
             };
 
-            _binaryFormatter.Serialize(_tcpClient.GetStream(), registerPackage);
+            //send
+            _binaryFormatter.Serialize(TcpClient.GetStream(), registerPackage);
 
-            object receivedObject = _binaryFormatter.Deserialize(_tcpClient.GetStream());
+            //receive
+            object receivedObject = _binaryFormatter.Deserialize(TcpClient.GetStream());
 
             if (receivedObject.GetType() == typeof(RegisterResponsePackage))
             {
                 RegisterResponsePackage registerResponsePackage = receivedObject as RegisterResponsePackage;
             }
 
-            _tcpClient.Close();
+            TcpClient.Close();
         }
 
         /// <summary>
@@ -72,9 +74,9 @@ namespace Arbeitsverwaltung.Classes
         /// <returns></returns>
         public bool? Login(string username, string password)
         {
-                _tcpClient = new TcpClient();
+                TcpClient = new TcpClient();
 
-            if (!_tcpClient.Connected)
+            if (!TcpClient.Connected)
                 Connect(Settings.Default.IP, Settings.Default.Port);
 
             LoginPackage loginPackage = new LoginPackage
@@ -83,9 +85,9 @@ namespace Arbeitsverwaltung.Classes
                 Username = username
             };
 
-            _binaryFormatter.Serialize(_tcpClient.GetStream(), loginPackage);
+            _binaryFormatter.Serialize(TcpClient.GetStream(), loginPackage);
 
-            object receivedObject = _binaryFormatter.Deserialize(_tcpClient.GetStream());
+            object receivedObject = _binaryFormatter.Deserialize(TcpClient.GetStream());
 
             if (receivedObject.GetType() == typeof(LoginResponsePackage))
             {
