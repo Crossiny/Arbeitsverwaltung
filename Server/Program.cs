@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Arbeitsverwaltung/Server/Program.cs
+// by Christoph Schimpf, Jonathan Boeckel
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -14,8 +16,9 @@ namespace Server
     {
         private static bool _running;
         private static int _port = Settings.Default.Port;
-        private static List<ClientConnection> _connections = new List<ClientConnection>();
+        private static readonly List<ClientConnection> _connections = new List<ClientConnection>();
         public static Database.Database Database;
+
         private static void Main(string[] args)
         {
             FileStream fileStream;
@@ -37,16 +40,16 @@ namespace Server
             #region Command processing
 
             Console.Write(">");
-            var input = Console.ReadLine();
+            string input = Console.ReadLine();
             while (input != "exit")
             {
                 if (input != null)
                 {
-                    var inputStrings = input.Split(' ');
+                    string[] inputStrings = input.Split(' ');
 
                     switch (inputStrings[0].ToLower())
                     {
-                        #region IP
+                            #region IP
 
                         case "ip":
                             if (inputStrings.Length == 1)
@@ -62,15 +65,15 @@ namespace Server
                                 {
                                     if (ip.AddressFamily == AddressFamily.InterNetwork)
                                     {
-                                        Console.WriteLine($"The server is running on {ip.ToString()}:{_port}");
+                                        Console.WriteLine($"The server is running on {ip}:{_port}");
                                     }
                                 }
                             }
                             break;
 
-                        #endregion
+                            #endregion
 
-                        #region Port
+                            #region Port
 
                         case "port":
                             if (inputStrings.Length == 1)
@@ -92,8 +95,8 @@ namespace Server
                                         int port;
                                         if (inputStrings.Length == 3)
                                         {
-                                            if (int.TryParse(inputStrings[2], out port) && (port > 0) &&
-                                                (port < short.MaxValue))
+                                            if (int.TryParse(inputStrings[2], out port) && ( port > 0 ) &&
+                                                ( port < short.MaxValue ))
                                             {
                                                 _port = port;
                                                 Settings.Default.Port = port;
@@ -123,12 +126,12 @@ namespace Server
                             }
                             break;
 
-                        #endregion
+                            #endregion
 
-                        #region Start
+                            #region Start
+
                         case "start":
-                            if (_running == true)
-                                Console.WriteLine("Server is already running");
+                            if (_running) Console.WriteLine("Server is already running");
                             else
                             {
                                 t = new Task(AcceptClients);
@@ -137,25 +140,26 @@ namespace Server
                                 Console.WriteLine("Server started!");
                             }
                             break;
-                        #endregion
 
-                        #region Stop 
+                            #endregion
+
+                            #region Stop 
+
                         case "stop":
-                            if (_running == false)
-                                Console.WriteLine("Server is not started!");
+                            if (_running == false) Console.WriteLine("Server is not started!");
                             else
                             {
                                 _running = false;
                                 Console.WriteLine("Stopped Server!");
                             }
                             break;
-                        #endregion
 
-                        #region Restart
+                            #endregion
+
+                            #region Restart
 
                         case "restart":
-                            if (!_running)
-                                Console.WriteLine("Server is not running!");
+                            if (!_running) Console.WriteLine("Server is not running!");
                             else
                             {
                                 _running = false;
@@ -168,9 +172,10 @@ namespace Server
                             }
                             break;
 
-                        #endregion
+                            #endregion
 
-                        #region Admin
+                            #region Admin
+
                         case "admin":
                             if (inputStrings.Length == 1)
                             {
@@ -237,9 +242,11 @@ namespace Server
                                 }
                             }
                             break;
-                        #endregion
 
-                        #region User
+                            #endregion
+
+                            #region User
+
                         case "user":
                             if (inputStrings.Length == 1)
                             {
@@ -265,7 +272,8 @@ namespace Server
                                 {
                                     string username = inputStrings[2];
                                     if (Database.UserExists(username))
-                                        Console.WriteLine($"{username} earns {Database.UserDictionary[username].Wage}€/hour");
+                                        Console.WriteLine(
+                                                          $"{username} earns {Database.UserDictionary[username].Wage}€/hour");
 
                                     else Console.WriteLine($"User {username} does not exist!");
                                 }
@@ -283,12 +291,11 @@ namespace Server
                                     if (!Database.UserExists(username))
                                     {
                                         Console.WriteLine($"User {username} does not exist!");
-                                        break;
                                     }
                                     else
                                     {
                                         double wage;
-                                        if (double.TryParse(inputStrings[3], out wage) && wage > 0)
+                                        if (double.TryParse(inputStrings[3], out wage) && ( wage > 0 ))
                                         {
                                             Database.UserDictionary[username].Wage = wage;
                                         }
@@ -300,18 +307,21 @@ namespace Server
                                 }
                             }
                             break;
-                        #endregion
 
-                        #region Save
+                            #endregion
+
+                            #region Save
+
                         case "save":
                             fileStream = new FileStream("DataBase.bin", FileMode.Open);
                             new BinaryFormatter().Serialize(fileStream, Database);
                             fileStream.Close();
                             Console.WriteLine("Config saved!");
                             break;
-                        #endregion
 
-                        #region Help
+                            #endregion
+
+                            #region Help
 
                         case "help":
                             Console.WriteLine("ip get                   Shows the local IP the server is running on");

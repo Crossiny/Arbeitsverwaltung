@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Arbeitsverwaltung/Server/AddShiftPackage.cs
+// by Christoph Schimpf, Jonathan Boeckel
+using System;
 using System.Runtime.Serialization;
 using Server.Database;
 

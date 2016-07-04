@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Arbeitsverwaltung/Server/RegisterPackage.cs
+// by Christoph Schimpf, Jonathan Boeckel
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;

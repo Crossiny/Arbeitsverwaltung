@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿// Arbeitsverwaltung/Server/AssemblyInfo.cs
+// by Christoph Schimpf, Jonathan Boeckel
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // Allgemeine Informationen über eine Assembly werden über die folgenden 

@@ -21,7 +21,7 @@
 
         <ListBox Name="UserListBox" SelectionChanged="UserListBox_OnSelectionChanged" />
         <ScrollViewer Grid.Column="1" Grid.RowSpan="2">
-            <StackPanel Name="StackPanel"></StackPanel>
+            <StackPanel Name="StackPanel" />
         </ScrollViewer>
         <Button Name="RefreshUserListButton" Content="Refresh user list" Grid.Row="1" Grid.Column="0" Click="RefreshUserListButton_OnClick"/>
     </Grid>

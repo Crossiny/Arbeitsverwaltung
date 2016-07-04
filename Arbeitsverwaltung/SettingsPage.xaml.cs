@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Arbeitsverwaltung/Arbeitsverwaltung/SettingsPage.xaml.cs
+// by Christoph Schimpf, Jonathan Boeckel
+using System;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows;

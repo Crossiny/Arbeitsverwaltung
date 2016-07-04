@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿// Arbeitsverwaltung/Arbeitsverwaltung/App.xaml.cs
+// by Christoph Schimpf, Jonathan Boeckel
+using System.Windows;
 
 namespace Arbeitsverwaltung
 {

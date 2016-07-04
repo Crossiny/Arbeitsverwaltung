@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Arbeitsverwaltung/Server/RequestUserDataPackage.cs
+// by Christoph Schimpf, Jonathan Boeckel
+using System;
 using System.Runtime.Serialization;
 
 namespace Server.Packages

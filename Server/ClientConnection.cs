@@ -1,3 +1,5 @@
+// Arbeitsverwaltung/Server/ClientConnection.cs
+// by Christoph Schimpf, Jonathan Boeckel
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;

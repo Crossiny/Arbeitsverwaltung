@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Arbeitsverwaltung/Arbeitsverwaltung/Client.cs
+// by Christoph Schimpf, Jonathan Boeckel
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Sockets;
@@ -38,10 +40,9 @@ namespace Arbeitsverwaltung.Classes
 
         public void Register(string username, string password)
         {
-            if(TcpClient == null)
-                TcpClient = new TcpClient();
+            TcpClient = new TcpClient();
 
-            if (!TcpClient.Connected)
+            if (TcpClient != null && !TcpClient.Connected)
             {
                 Connect(Settings.Default.IP, Settings.Default.Port);
             }
@@ -78,7 +79,7 @@ namespace Arbeitsverwaltung.Classes
         /// <returns></returns>
         public bool? Login(string username, string password)
         {
-                TcpClient = new TcpClient();
+            TcpClient = new TcpClient();
 
             if (!TcpClient.Connected)
                 Connect(Settings.Default.IP, Settings.Default.Port);

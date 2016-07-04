@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization.Formatters.Binary;
+﻿// Arbeitsverwaltung/Arbeitsverwaltung/AdminPage.xaml.cs
+// by Christoph Schimpf, Jonathan Boeckel
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -30,10 +32,11 @@ namespace Arbeitsverwaltung
 
             GetUserDataResponsePackage getUserDataResponsePackage = binaryFormatter.Deserialize(Client.TcpClient.GetStream()) as GetUserDataResponsePackage;
             StackPanel.Children.Clear();
-            foreach (Shift shift in getUserDataResponsePackage.User.Shifts)
-            {
-                StackPanel.Children.Add(new ShiftElement(shift, getUserDataResponsePackage.User.Wage));
-            }
+            if (getUserDataResponsePackage != null)
+                foreach (Shift shift in getUserDataResponsePackage.User.Shifts)
+                {
+                    StackPanel.Children.Add(new ShiftElement(shift, getUserDataResponsePackage.User.Wage));
+                }
         }
 
         private void RefreshUserListButton_OnClick(object sender, RoutedEventArgs e)
@@ -45,10 +48,14 @@ namespace Arbeitsverwaltung
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             binaryFormatter.Serialize(Client.TcpClient.GetStream(), getUserListPackage);
             UserListBox.Items.Clear();
-            GetUserListResponsePackage getUserListResponsePackage = binaryFormatter.Deserialize(Client.TcpClient.GetStream()) as GetUserListResponsePackage;
-            foreach (string user in getUserListResponsePackage.UserList)
+            GetUserListResponsePackage getUserListResponsePackage =
+                binaryFormatter.Deserialize(Client.TcpClient.GetStream()) as GetUserListResponsePackage;
+            if (getUserListResponsePackage != null)
             {
-                UserListBox.Items.Add(user);
+                foreach (string user in getUserListResponsePackage.UserList)
+                {
+                    UserListBox.Items.Add(user);
+                }
             }
         }
     }

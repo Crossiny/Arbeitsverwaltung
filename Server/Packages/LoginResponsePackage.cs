@@ -1,3 +1,5 @@
+// Arbeitsverwaltung/Server/LoginResponsePackage.cs
+// by Christoph Schimpf, Jonathan Boeckel
 using System;
 using System.Runtime.Serialization;
 

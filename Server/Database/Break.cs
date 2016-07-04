@@ -1,3 +1,5 @@
+// Arbeitsverwaltung/Server/Break.cs
+// by Christoph Schimpf, Jonathan Boeckel
 using System;
 using System.Runtime.Serialization;
 

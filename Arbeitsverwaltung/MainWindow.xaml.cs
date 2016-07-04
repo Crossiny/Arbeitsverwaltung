@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Arbeitsverwaltung/Arbeitsverwaltung/MainWindow.xaml.cs
+// by Christoph Schimpf, Jonathan Boeckel
+using System;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;

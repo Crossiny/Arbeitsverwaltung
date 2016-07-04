@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Arbeitsverwaltung/Server/Database.cs
+// by Christoph Schimpf, Jonathan Boeckel
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 

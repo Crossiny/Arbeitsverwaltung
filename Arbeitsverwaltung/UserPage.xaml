@@ -29,8 +29,9 @@
                 Click="StartBreakButton_OnClick" />
         <Button Name="StopBreakButton" Content="Stop Break" Grid.Row="1" Grid.Column="1"
                 Click="StopBreakButton_OnClick" />
-        <StackPanel Name="StackPanel" Grid.Row="2" Grid.ColumnSpan="2" />
-        
+        <ScrollViewer  Grid.Row="2" Grid.ColumnSpan="2">
+            <StackPanel Name="StackPanel" />
+        </ScrollViewer>
         <Button Name="RefreshListButton" Grid.Row="3" Content="Refresh list" Click="RefreshListButton_OnClick"/>
     </Grid>
 </Page>

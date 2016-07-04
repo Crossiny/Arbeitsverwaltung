@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Arbeitsverwaltung/Arbeitsverwaltung/UserPage.xaml.cs
+// by Christoph Schimpf, Jonathan Boeckel
+using System;
 using System.Data.SqlTypes;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
