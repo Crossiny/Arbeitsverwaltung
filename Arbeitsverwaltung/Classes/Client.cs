@@ -1,53 +1,120 @@
-﻿using System;
+﻿// Arbeitsverwaltung/Arbeitsverwaltung/Client.cs
+// by Christoph Schimpf, Jonathan Boeckel
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Sockets;
 using System.Diagnostics;
-using System.;
+using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows;
+using Arbeitsverwaltung.Properties;
+using Server.Packages;
 
 namespace Arbeitsverwaltung.Classes
 {
-    class Client
+    internal class Client
     {
-        private readonly Dictionary<string, string> _dictionary = new Dictionary<string, string>();
+        private BinaryFormatter _binaryFormatter = new BinaryFormatter();
+        public static TcpClient TcpClient;
 
         public void Connect(string ip, int port)
         {
+            TcpClient = new TcpClient();
             try
             {
                 if (string.IsNullOrEmpty(ip))
                 {
-                    Debug.Print("No ip-address specified! Please write down an Ip-address that exists!");
+                    MainWindow.PrintStatus("No ip-address specified! Please write down an Ip-address that exists!");
                 }
                 else
                 {
-                    TcpClient tc = new TcpClient(ip, port);
-                    Debug.Print("Connection to Server successfully!");
+
+                    TcpClient.Connect(ip, port);
+                    MainWindow.PrintStatus("Connection to Server successfully!");
                 }
             }
             catch (Exception)
             {
-                Debug.Print("Connection to Server failed!");
-                throw;
-            }            
+                MainWindow.PrintStatus("Connection to Server failed!");
+            }
         }
 
         public void Register(string username, string password)
         {
-            _dictionary.Add(username, password);
-        }
+            TcpClient = new TcpClient();
 
-        public void Login(string username, string password)
-        {
-            if (_dictionary.ContainsKey(username))
+            if (TcpClient != null && !TcpClient.Connected)
             {
-                if (_dictionary[username] == password)
+                Connect(Settings.Default.IP, Settings.Default.Port);
+            }
+
+            RegisterPackage registerPackage = new RegisterPackage()
+            {
+                Password = password,
+                Username = username
+            };
+            if (TcpClient.Connected)
+            {
+                _binaryFormatter.Serialize(TcpClient.GetStream(), registerPackage);
+
+                object receivedObject = _binaryFormatter.Deserialize(TcpClient.GetStream());
+
+                if (receivedObject.GetType() == typeof(RegisterResponsePackage))
                 {
-                    Debug.Print("login details are correct!");
+                    RegisterResponsePackage registerResponsePackage = receivedObject as RegisterResponsePackage;
+
+                    if (registerResponsePackage.Success)
+                        MainWindow.PrintStatus("Registered successfully!");
+                    else
+                        MainWindow.PrintStatus("Registration failed!");
                 }
             }
+            TcpClient.Close();
+        }
+
+        /// <summary>
+        /// true = admin, false = normalUser, null = error
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public bool? Login(string username, string password)
+        {
+            TcpClient = new TcpClient();
+
+            if (!TcpClient.Connected)
+                Connect(Settings.Default.IP, Settings.Default.Port);
+
+            LoginPackage loginPackage = new LoginPackage
+            {
+                Password = password,
+                Username = username
+            };
+            if (TcpClient.Connected)
+            {
+                _binaryFormatter.Serialize(TcpClient.GetStream(), loginPackage);
+
+                object receivedObject = _binaryFormatter.Deserialize(TcpClient.GetStream());
+
+                if (receivedObject.GetType() == typeof(LoginResponsePackage))
+                {
+                    LoginResponsePackage loginResponsePackage = receivedObject as LoginResponsePackage;
+
+                    if (loginResponsePackage != null && !loginResponsePackage.Success)
+                    {
+                        return null;
+                    }
+                    else if (loginResponsePackage != null && loginResponsePackage.IsAdmin)
+                    {
+                        return true;
+                    }
+                    else if (loginResponsePackage != null && !loginResponsePackage.IsAdmin)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

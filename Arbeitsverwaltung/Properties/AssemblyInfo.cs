@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿// Arbeitsverwaltung/Arbeitsverwaltung/AssemblyInfo.cs
+// by Christoph Schimpf, Jonathan Boeckel
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 

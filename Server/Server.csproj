@@ -44,8 +44,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientConnection.cs" />
-    <Compile Include="Packages\ConnectPackage.cs" />
-    <Compile Include="Packages\ConnectResponsePackage.cs" />
+    <Compile Include="Database\Database.cs" />
+    <Compile Include="Packages\AddShiftPackage.cs" />
+    <Compile Include="Packages\AddShiftResponsePackage.cs" />
+    <Compile Include="Packages\GetUserDataPackage.cs" />
+    <Compile Include="Packages\GetUserDataResponsePackage.cs" />
+    <Compile Include="Packages\GetUserListResponsePackage.cs" />
+    <Compile Include="Packages\GetUserListPackage.cs" />
+    <Compile Include="Packages\LoginPackage.cs" />
+    <Compile Include="Packages\LoginResponsePackage.cs" />
+    <Compile Include="Packages\LogoutResponsePackage.cs" />
+    <Compile Include="Packages\LogoutPackage.cs" />
+    <Compile Include="Packages\RegisterPackage.cs" />
+    <Compile Include="Packages\RegisterResponsePackage.cs" />
+    <Compile Include="Packages\RequestUserDataPackage.cs" />
+    <Compile Include="Packages\RequestUserDataResponsePackage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.Designer.cs">

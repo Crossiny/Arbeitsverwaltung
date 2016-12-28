@@ -1,15 +1,33 @@
+// Arbeitsverwaltung/Server/User.cs
+// by Christoph Schimpf, Jonathan Boeckel
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Server.Database
 {
-    class User
+    [Serializable]
+    public class User : ISerializable
     {
-        public string Username { get; }
-        public int Loan { get; }
         public List<Shift> Shifts = new List<Shift>();
 
-        public TimeSpan WorkedSpan
+        public User(string username)
+        {
+            Username = username;
+        }
+
+        private User(SerializationInfo info, StreamingContext context)
+        {
+            Username = info.GetString("Username");
+            Wage = info.GetDouble("Wage");
+            Shifts = info.GetValue("Shifts", typeof(List<Shift>)) as List<Shift>;
+        }
+
+        public string Username;
+        public double Wage = 8;
+        public bool IsAdmin;
+
+        public TimeSpan WorkSpan
         {
             get
             {
@@ -35,10 +53,48 @@ namespace Server.Database
             }
         }
 
-        public User(string username, int loan)
+        public TimeSpan WorkSpanRange(DateTime startTime, DateTime endTime)
         {
-            Username = username;
-            Loan = loan;
+            TimeSpan timeSpan = default(TimeSpan);
+            foreach (Shift shift in Shifts)
+            {
+                if (shift.StartTime > startTime && shift.EndTime < endTime)
+                    timeSpan += shift.WorkSpan;
+            }
+            return timeSpan;
+        }
+
+        public TimeSpan BreakedSpanRange(DateTime startTime, DateTime endTime)
+        {
+            TimeSpan timeSpan = default(TimeSpan);
+            foreach (Shift shift in Shifts)
+            {
+                if (shift.StartTime > startTime && shift.EndTime < endTime)
+                    timeSpan += shift.BreakSpan;
+            }
+            return timeSpan;
+        }
+        
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Username", Username);
+            info.AddValue("Wage", Wage);
+            info.AddValue("Shifts", Shifts);
+        }
+        
+        public void SetWage(double wage)
+        {
+            Wage = wage;
+        }
+
+        public void SetAdmin(bool isAdmin)
+        {
+            IsAdmin = isAdmin;
+        }
+
+        public void AddShift(Shift shift)
+        {
+            Shifts.Add(shift);
         }
     }
 }

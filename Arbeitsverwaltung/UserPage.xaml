@@ -8,4 +8,30 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="UserPage"
       Background="WhiteSmoke">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+
+        <Button Name="StartShiftButton" Content="Start Shift" Grid.Row="0" Grid.Column="0"
+                Click="StartShiftButton_OnClick" />
+        <Button Name="StopShiftButton" Content="Stop Shift" Grid.Row="0" Grid.Column="1"
+                Click="StopShiftButton_OnClick" />
+        <Button Name="StartBreakButton" Content="Start Break" Grid.Row="1" Grid.Column="0"
+                Click="StartBreakButton_OnClick" />
+        <Button Name="StopBreakButton" Content="Stop Break" Grid.Row="1" Grid.Column="1"
+                Click="StopBreakButton_OnClick" />
+        <ScrollViewer  Grid.Row="2" Grid.ColumnSpan="2">
+            <StackPanel Name="StackPanel" />
+        </ScrollViewer>
+        <Button Name="RefreshListButton" Grid.Row="3" Content="Refresh list" Click="RefreshListButton_OnClick"/>
+    </Grid>
 </Page>
